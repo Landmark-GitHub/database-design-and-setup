@@ -162,13 +162,23 @@
 import { Bill, Product } from '@/lib/types';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-// 1. นำเข้า Accordion จาก Shadcn
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+
+// ส่วนที่เพิ่ม: ตัวแปลงชื่อภาษาไทยตามที่คุณกำหนด
+const PRODUCT_TYPE_LABELS: Record<string, string> = {
+  XL: 'แท่งใหญ่',
+  S: 'แท่งเล็ก',
+  Sandwich: 'แซนวิช',
+  Cup: 'ถ้วย',
+  Coffee: 'กาแฟ',
+  Cone: 'โคน', // ปรับเปลี่ยนตามความเหมาะสมได้ครับ
+  D: 'น้ำแข็งแห้ง'
+};
 
 interface ProductTableProps {
   bill: Bill;
@@ -193,46 +203,83 @@ export function ProductTable({ bill, products, mode, readOnly, onItemChange }: P
     groupedProducts[typeGroup].push(product);
   });
 
-  // ลำดับกลุ่มที่จะแสดงผล
-  const displayOrder = ['XL', 'S', 'Sandwich', 'Cup', 'Coffee', 'Cone', 'D'];
+  // ลำดับการเรียงลำดับดึงจาก Key ของ Object
+  const displayOrder = ['XL', 'S', 'Coffee','Sandwich', 'Cup', 'Cone', 'D'];
 
   return (
-    // กำหนดให้เปิดพร้อมกันได้หลายอัน (type="multiple") และให้เปิดเปิดกลุ่มแรกไว้ล่วงหน้า
     <Accordion type="multiple" defaultValue={['XL', 'S']} className="w-full space-y-3">
       {displayOrder.map((type) => {
         const typeProducts = groupedProducts[type] || [];
         if (typeProducts.length === 0) return null;
 
-        // คำนวณจำนวนชิ้นที่เบิก/คืนในกลุ่มนี้เพื่อเอาไปโชว์ที่หัวข้อ (ช่วยให้พนักงานรู้ว่าคีย์ไปแล้ว)
-        const totalItemsInGroup = typeProducts.reduce((sum, p) => {
-          const item = bill.items.find((i) => i.productId === p.id);
+        const categoryItems = typeProducts.map((product) => {
+          const item = bill.items.find((i) => i.productId === product.id);
+          return { product, item };
+        });
+
+        const catOldTotal = categoryItems.reduce((sum, { item }) => sum + (item?.oldStock || 0), 0);
+        const catNewTotal = categoryItems.reduce((sum, { item }) => sum + (item?.newStock || 0), 0);
+        const catTotal = categoryItems.reduce((sum, { item }) => sum + (item?.totalStock || 0), 0);
+        const catReturnedTotal = categoryItems.reduce((sum, { item }) => sum + (item?.returned || 0), 0);
+        const catSoldTotal = categoryItems.reduce((sum, { item }) => sum + (item?.sold || 0), 0);
+
+        const totalItemsInGroup = categoryItems.reduce((sum, { item }) => {
           if (!item) return sum;
-          return sum + (mode === 'checkout' ? item.newStock : item.returned);
+          return sum + (mode === 'checkout' ? (item.newStock || 0) : (item.returned || 0));
         }, 0);
 
         return (
           <AccordionItem key={type} value={type} className="border rounded-xl bg-card px-4">
-            {/* หัวข้อกลุ่มสินค้า */}
             <AccordionTrigger className="hover:no-underline py-3">
-              <div className="flex items-center gap-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between w-full pr-4 gap-2">
+                
+                {/* 🔥 จุดที่แก้ไข: ดึงชื่อภาษาไทยจาก PRODUCT_TYPE_LABELS มาแสดงผล 
+                  ถ้าไม่มีใน Object ให้ใช้ชื่อ type เดิม (Fallback กันพัง)
+                */}
                 <span className="font-bold text-base text-foreground">
-                  {type === 'D' ? 'น้ำแข็งแห้ง' : `ประเภท ${type}`}
+                  {PRODUCT_TYPE_LABELS[type] || `ประเภท ${type}`}
                 </span>
-                {totalItemsInGroup > 0 && (
-                  <span className="bg-primary/10 text-primary text-xs px-2.5 py-0.5 rounded-full font-semibold">
-                    คีย์แล้ว {totalItemsInGroup} ชิ้น
+
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="bg-muted text-muted-foreground text-xs px-2.5 py-0.5 rounded-full font-semibold">
+                    เก่า {catOldTotal}
                   </span>
-                )}
+
+                  {mode === 'checkout' ? (
+                    <>
+                      <span className="bg-muted text-muted-foreground text-xs px-2.5 py-0.5 rounded-full font-semibold">
+                        ใหม่ {catNewTotal}
+                      </span>
+                      <span className="bg-primary/5 text-primary text-xs px-2.5 py-0.5 rounded-full font-semibold">
+                        รวม {catTotal}
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="bg-muted text-muted-foreground text-xs px-2.5 py-0.5 rounded-full font-semibold">
+                        เหลือ {catReturnedTotal}
+                      </span>
+                      <span className="bg-green-500/10 text-green-600 text-xs px-2.5 py-0.5 rounded-full font-semibold">
+                        ขาย {catSoldTotal}
+                      </span>
+                    </>
+                  )}
+
+                  {totalItemsInGroup > 0 && (
+                    <span className="bg-primary/10 text-primary text-xs px-2.5 py-0.5 rounded-full font-semibold">
+                      คีย์แล้ว {totalItemsInGroup} ชิ้น
+                    </span>
+                  )}
+                </div>
+
               </div>
             </AccordionTrigger>
 
-            {/* เนื้อหาด้านในรายการสินค้า */}
             <AccordionContent className="pt-1 pb-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                {typeProducts
-                  .sort((a, b) => a.sortOrder - b.sortOrder)
-                  .map((product) => {
-                    const item = bill.items.find((i) => i.productId === product.id);
+                {categoryItems
+                  .sort((a, b) => a.product.sortOrder - b.product.sortOrder)
+                  .map(({ product, item }) => {
                     if (!item) return null;
 
                     return (

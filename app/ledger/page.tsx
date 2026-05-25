@@ -403,18 +403,6 @@ export default function LedgerPage() {
         ) : (
           <div className="p-4 space-y-4">
 
-            {/* Buyer Name Input */}
-            {/* <div>
-              <Label className="text-sm text-muted-foreground">ชื่อ:</Label>
-              <Input
-                value={currentBill.buyerName || ''}
-                onChange={(e) => handleBillFieldChange('buyerName', e.target.value)}
-                placeholder="กรอกชื่อผู้ขาย..."
-                disabled={currentBill.status === 'completed'}
-                className="mt-1"
-              />
-            </div> */}
-
             {/* Additional Info - shown in checkout mode */}
             {mode === 'checkout' && (
               <>
