@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useStore } from '@/lib/store';
-import { getCurrentMonth } from '@/lib/types';
+import { getCurrentMonth, PRODUCT_TYPE_LABELS } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -33,14 +33,17 @@ import {
   RefreshCw,
   Settings2,
   AlertTriangle,
+  FileSpreadsheet,
+  FileJson,
 } from 'lucide-react';
 
 export default function DataManagementPage() {
   const {
     bills,
+    products,
+    members,
     historyLogs,
     settings,
-    exportToCSV,
     runAutoCleanup,
     updateSettings,
     resetAll,
@@ -56,7 +59,6 @@ export default function DataManagementPage() {
 
   // Auto cleanup check on mount
   useEffect(() => {
-    // Check if cleanup needed (run once per day)
     const today = new Date().toISOString().split('T')[0];
     const store = useStore.getState();
     if (store.lastCleanup !== today) {
@@ -64,14 +66,131 @@ export default function DataManagementPage() {
     }
   }, []);
 
+  // Helper functions
+  const formatDateThai = (dateStr: string): string => {
+    const date = new Date(dateStr + 'T00:00:00');
+    return date.toLocaleDateString('th-TH', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      weekday: 'short',
+    });
+  };
+
+  const getStatusLabel = (status: string): string => {
+    switch (status) {
+      case 'draft': return 'กำลังเบิก';
+      case 'checkout': return 'เบิกแล้ว';
+      case 'completed': return 'ปิดวันแล้ว';
+      default: return status;
+    }
+  };
+
+  // Improved CSV Export
   const handleExportCSV = () => {
-    const csv = exportToCSV(selectedMonth);
-    if (!csv) {
+    const filteredBills = bills.filter((b) => b.date.startsWith(selectedMonth));
+    
+    if (filteredBills.length === 0) {
       alert('ไม่มีข้อมูลในเดือนที่เลือก');
       return;
     }
 
-    const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' }); // BOM for Excel
+    // CSV Header - Thai labels matching frontend display
+    const headers = [
+      'วันที่',
+      'ชื่อสมาชิก',
+      'ประเภทสินค้า',
+      'ยอดเก่า',
+      'ยอดใหม่ (เบิก)',
+      'ยอดรวม',
+      'ยอดเหลือคืน',
+      'ยอดขาย',
+      'ราคา/ชิ้น',
+      'มูลค่าขาย (บาท)',
+      'ค่าน้ำแข็ง (บาท)',
+      'ยอดขายรวม (บาท)',
+      'จ่ายแล้ว (บาท)',
+      'ค้างเก่า (บาท)',
+      'ค้างชำระ (บาท)',
+      'หมายเหตุ',
+      'สถานะ'
+    ];
+    
+    const rows: string[][] = [];
+    
+    // Sort bills by date
+    const sortedBills = [...filteredBills].sort((a, b) => a.date.localeCompare(b.date));
+    
+    sortedBills.forEach((bill) => {
+      let isFirstItem = true;
+      
+      // Group items by type for better readability
+      const productTypes = Array.from(new Set(products.map(p => p.type)));
+      
+      productTypes.forEach((type) => {
+        // Skip special types
+        if (type === 'Car' || type === 'House' || type === 'D') return;
+        
+        const typeProducts = products.filter(p => p.type === type);
+        const typeItems = bill.items.filter(item => 
+          typeProducts.some(p => p.id === item.productId) && 
+          (item.totalStock > 0 || item.newStock > 0)
+        );
+        
+        if (typeItems.length === 0) return;
+        
+        // Calculate type totals
+        const typeOldStock = typeItems.reduce((sum, i) => sum + i.oldStock, 0);
+        const typeNewStock = typeItems.reduce((sum, i) => sum + i.newStock, 0);
+        const typeTotalStock = typeItems.reduce((sum, i) => sum + i.totalStock, 0);
+        const typeReturned = bill.returnInputs?.[type] || 0;
+        const typeSold = Math.max(0, typeTotalStock - typeReturned);
+        
+        // Get price based on member class
+        const member = members.find(m => m.id === bill.memberId);
+        const memberClass = member?.class ?? 'In';
+        const baseProduct = typeProducts[0];
+        let price = 0;
+        if (memberClass === 'Out') price = baseProduct?.priceOut || 0;
+        else if (memberClass === 'WalkIn') price = baseProduct?.priceWorkIn || 0;
+        else price = baseProduct?.priceIn || 0;
+        
+        const typeSubtotal = typeSold * price;
+        
+        const typeName = PRODUCT_TYPE_LABELS[type as keyof typeof PRODUCT_TYPE_LABELS] || type;
+        
+        rows.push([
+          isFirstItem ? formatDateThai(bill.date) : '',
+          isFirstItem ? bill.memberName : '',
+          typeName,
+          typeOldStock.toString(),
+          typeNewStock.toString(),
+          typeTotalStock.toString(),
+          typeReturned.toString(),
+          typeSold.toString(),
+          price.toString(),
+          typeSubtotal.toLocaleString(),
+          isFirstItem ? (bill.icePrice || 0).toLocaleString() : '',
+          isFirstItem ? Math.round(bill.totalSales).toLocaleString() : '',
+          isFirstItem ? Math.round(bill.amountPaid).toLocaleString() : '',
+          isFirstItem ? Math.round(bill.previousOwed || 0).toLocaleString() : '',
+          isFirstItem ? Math.round(bill.amountOwed).toLocaleString() : '',
+          isFirstItem ? (bill.notes || '-') : '',
+          isFirstItem ? getStatusLabel(bill.status) : '',
+        ]);
+        
+        isFirstItem = false;
+      });
+      
+      // Add empty row between bills for readability
+      if (!isFirstItem) {
+        rows.push(Array(headers.length).fill(''));
+      }
+    });
+    
+    const csv = [headers.join(','), ...rows.map((r) => r.map((cell) => `"${cell}"`).join(','))].join('\n');
+
+    const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -131,7 +250,7 @@ export default function DataManagementPage() {
       <header className="sticky top-0 z-10 bg-card/95 backdrop-blur-sm border-b border-border">
         <div className="flex items-center justify-between px-4 py-3">
           <div className="flex items-center gap-2">
-            <Link href="/settings">
+            <Link href="/">
               <Button variant="ghost" size="icon">
                 <ChevronLeft className="w-5 h-5" />
               </Button>
@@ -172,7 +291,7 @@ export default function DataManagementPage() {
               <Download className="w-4 h-4" />
               ส่งออกข้อมูล
             </CardTitle>
-            <CardDescription>ดาวน์โหลดข้อมูลเป็นไฟล์ CSV หรือ JSON</CardDescription>
+            <CardDescription>ดาวน์โหลดข้อมูลเป็นไฟล์ CSV (อ่านง่าย) หรือ JSON</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
@@ -207,8 +326,8 @@ export default function DataManagementPage() {
                 onClick={handleExportCSV}
                 disabled={availableMonths.length === 0}
               >
-                <Download className="w-4 h-4 mr-2" />
-                CSV
+                <FileSpreadsheet className="w-4 h-4 mr-2" />
+                CSV (Excel)
               </Button>
               <Button
                 variant="outline"
@@ -216,10 +335,14 @@ export default function DataManagementPage() {
                 onClick={handleExportJSON}
                 disabled={availableMonths.length === 0}
               >
-                <Download className="w-4 h-4 mr-2" />
+                <FileJson className="w-4 h-4 mr-2" />
                 JSON
               </Button>
             </div>
+            
+            <p className="text-xs text-muted-foreground">
+              * ไฟล์ CSV รองรับการเปิดด้วย Excel และแสดงข้อมูลเป็นภาษาไทยอ่านง่าย เหมือนหน้า Transaction
+            </p>
           </CardContent>
         </Card>
 
@@ -375,7 +498,7 @@ export default function DataManagementPage() {
               disabled={confirmText !== 'ลบข้อมูล'}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              ลบข้อมูลทั้งหมด
+              ล้างข้อมูลทั้งหมด
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

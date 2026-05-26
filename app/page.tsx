@@ -10,9 +10,20 @@ import { ClipboardList, Settings, TrendingUp, Users, Database, Sunrise, Sunset }
 export default function HomePage() {
   const { members, bills } = useStore();
 
-  const today = getToday();
+  // 1. แก้ไขการ getToday ให้ล็อกตาม Timezone ไทย (+7 ชั่วโมง) ชัวร์ที่สุด
+  const tzOffset = 7 * 60 * 60 * 1000; // +7 hours in ms
+  const localDate = new Date(Date.now() + tzOffset);
+  const today = localDate.toISOString().split('T')[0]; 
+
+  // 2. กรองบิลเฉพาะของวันนี้
   const todayBills = bills.filter((b) => b.date === today);
-  const todaySales = todayBills.reduce((sum, b) => sum + (b.status === 'completed' ? b.totalSales : 0), 0);
+
+  // 3. ปรับการคิดยอดรวมวันนี้: ให้แสดง "ยอดรวมใบสั่งซื้อทั้งหมดของวันนี้" ทันที ไม่ต้องรอปิดบิล
+  // const todaySalesTotal = todayBills.reduce((sum, b) => sum + (b.totalSales || 0), 0);
+  const todaySalesTotal = todayBills
+  .filter((b) => b.status === 'completed')
+  .reduce((sum, b) => sum + (b.totalSales || 0), 0);
+  
   const activeMembers = members.filter((m) => m.statusOut === 'active');
 
   const formattedDate = new Date().toLocaleDateString('th-TH', {
@@ -54,7 +65,7 @@ export default function HomePage() {
                   <div>
                     <p className="text-xs text-muted-foreground">ยอดวันนี้</p>
                     <p className="font-semibold text-foreground">
-                      {todayBills.reduce((sum, b) => sum + b.amountPaid, 0).toLocaleString()} บาท
+                      {todaySalesTotal.toLocaleString()} บาท
                     </p>
                   </div>
                 </div>

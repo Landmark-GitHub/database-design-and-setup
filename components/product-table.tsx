@@ -241,22 +241,22 @@ export function ProductTable({ bill, products, mode, readOnly, onItemChange }: P
                 </span>
 
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="bg-muted text-muted-foreground text-xs px-2.5 py-0.5 rounded-full font-semibold">
+                  <span className="bg-red-400 text-white text-xs px-2.5 py-0.5 rounded-full font-semibold">
                     เก่า {catOldTotal}
                   </span>
 
                   {mode === 'checkout' ? (
                     <>
-                      <span className="bg-muted text-muted-foreground text-xs px-2.5 py-0.5 rounded-full font-semibold">
+                      <span className="bg-green-500 text-white text-xs px-2.5 py-0.5 rounded-full font-semibold">
                         ใหม่ {catNewTotal}
                       </span>
-                      <span className="bg-primary/5 text-primary text-xs px-2.5 py-0.5 rounded-full font-semibold">
+                      <span className="bg-blue-500 text-white text-xs px-2.5 py-0.5 rounded-full font-semibold">
                         รวม {catTotal}
                       </span>
                     </>
                   ) : (
                     <>
-                      <span className="bg-muted text-muted-foreground text-xs px-2.5 py-0.5 rounded-full font-semibold">
+                      <span className="bg-red-400 text-white text-xs px-2.5 py-0.5 rounded-full font-semibold">
                         เหลือ {catReturnedTotal}
                       </span>
                       <span className="bg-green-500/10 text-green-600 text-xs px-2.5 py-0.5 rounded-full font-semibold">
@@ -265,11 +265,11 @@ export function ProductTable({ bill, products, mode, readOnly, onItemChange }: P
                     </>
                   )}
 
-                  {totalItemsInGroup > 0 && (
+                  {/* {totalItemsInGroup > 0 && (
                     <span className="bg-primary/10 text-primary text-xs px-2.5 py-0.5 rounded-full font-semibold">
                       คีย์แล้ว {totalItemsInGroup} ชิ้น
                     </span>
-                  )}
+                  )} */}
                 </div>
 
               </div>
@@ -287,8 +287,8 @@ export function ProductTable({ bill, products, mode, readOnly, onItemChange }: P
                         key={product.id}
                         className={cn(
                           "flex items-center justify-between p-3 rounded-lg border bg-muted/30 transition-colors",
-                          mode === 'checkout' && item.newStock > 0 && 'bg-primary/5 border-primary/20',
-                          mode === 'return' && item.returned > 0 && 'bg-amber-500/5 border-amber-500/20'
+                          mode === 'checkout' && item.newStock > 0 && 'bg-green-500/10 border-green-500 border-4',
+                          mode === 'return' && item.returned > 0 && 'bg-amber-500/10 border-amber-500/20 border-4'
                         )}
                       >
                         <span className="text-sm font-medium text-foreground">{product.name}</span>

@@ -255,8 +255,6 @@ export function getProductPrice(product: Product, member: Member): number {
   return product.priceIn; // 'In' (default)
 }
 
-
-
 export function calculateBillTotals(
   bill: Bill,
   allProducts: Product[],
@@ -315,7 +313,7 @@ export function calculateBillTotals(
 
   // ยอดขายวันนี้รวมทุกอย่าง = ไอศกรีม + แพ็กเกจ + น้ำแข็งถัง + น้ำแข็งแห้ง
   // (จุดนี้ totalSales สามารถติดลบได้ถูกต้องตามจริงแล้ว เช่น วันนี้ได้ของคืนรวมมูลค่า -50 บาท)
-  const totalSales = itemsTotal + planTotal + (bill.icePrice || 0) + iceDryPrice;
+  const totalSales = itemsTotal + planTotal + iceDryPrice;
   
   // 🔴 แก้ไขจุดที่ 2: ป้องกันไม่ให้ "ยอดค้างชำระของบิลวันนี้" ติดลบ
   let amountOwed = totalSales - (bill.amountPaid || 0) + bill.previousOwed;
