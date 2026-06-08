@@ -5,7 +5,7 @@ import { useStore } from '@/lib/store';
 import { getToday } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ClipboardList, Settings, TrendingUp, Users, Database, Sunrise, Sunset } from 'lucide-react';
+import { ClipboardList, Settings, TrendingUp, Users, Database, Sunrise, Sunset, Receipt } from 'lucide-react';
 
 export default function HomePage() {
   const { members, bills } = useStore();
@@ -92,26 +92,31 @@ export default function HomePage() {
 
           {/* Main Actions */}
           <h3 className="text-sm font-medium text-muted-foreground mb-3">การทำงานประจำวัน</h3>
-          <div className=" gap-3 mb-6">
-            {/* Morning - Checkout */}
-            <Link href="/ledger" className="block">
-              <Card className="hover:shadow-lg transition-shadow cursor-pointer border-primary/20 bg-card h-full">
-                <CardContent className="flex flex-col items-center gap-3 p-5 text-center">
-                  <div className="w-14 h-14 rounded-full bg-amber-500/10 flex items-center justify-center">
-                    <Sunrise className="w-7 h-7 text-amber-500" />
-                  </div>
-                  <div>
-                    <h2 className="font-semibold text-foreground">บันทึกรายการสินค้า</h2>
-                  </div>
-                  <Button size="sm" variant="outline" className="w-full mt-2">
-                    เปิด
-                  </Button>
-                </CardContent>
-              </Card>
-            </Link>
+            <div className="grid grid-cols-2 gap-3 mb-6">
+              <Link href="/ledger" className="block">
+                <Card className="hover:shadow-sm transition-all cursor-pointer hover:border-border/60 h-full">
+                  <CardContent className="p-5">
+                    <div className="w-11 h-11 rounded-lg bg-amber-500/10 flex items-center justify-center mb-3.5">
+                      <ClipboardList className="w-5 h-5 text-amber-700" />
+                    </div>
+                    <p className="text-sm font-medium text-foreground">บันทึกการเบิก</p>
+                    <p className="text-xs text-muted-foreground mt-1">สินค้าประจำวัน</p>
+                  </CardContent>
+                </Card>
+              </Link>
 
-          </div>
-
+              <Link href="/expenses" className="block">
+                <Card className="hover:shadow-sm transition-all cursor-pointer hover:border-border/60 h-full">
+                  <CardContent className="p-5">
+                    <div className="w-11 h-11 rounded-lg bg-emerald-500/10 flex items-center justify-center mb-3.5">
+                      <Receipt className="w-5 h-5 text-emerald-700" />
+                    </div>
+                    <p className="text-sm font-medium text-foreground">บันทึกรายจ่าย</p>
+                    <p className="text-xs text-muted-foreground mt-1">ค่าใช้จ่ายประจำวัน</p>
+                  </CardContent>
+                </Card>
+              </Link>
+            </div>
           {/* Menu Grid */}
           <h3 className="text-sm font-medium text-muted-foreground mb-3">เมนูอื่นๆ</h3>
           <div className="grid grid-cols-3 gap-3">
@@ -121,7 +126,7 @@ export default function HomePage() {
                   <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center mb-2">
                     <ClipboardList className="w-4 h-4 text-primary" />
                   </div>
-                  <CardTitle className="text-xs">บันทึกรายวัน</CardTitle>
+                  <CardTitle className="text-xs">สรุปยอด</CardTitle>
                 </CardHeader>
               </Card>
             </Link>
