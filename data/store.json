@@ -88,13 +88,13 @@
         "house": false,
         "car": false
       },
-      "statusOut": "active",
+      "statusOut": "inactive",
       "statusWorkIn": "working",
       "createdAt": "2026-05-25T16:08:54.704Z",
-      "updatedAt": "2026-05-26T15:31:24.726Z",
+      "updatedAt": "2026-06-08T03:48:26.824Z",
       "phone": "",
       "address": "",
-      "memberClass": "out"
+      "memberClass": "in"
     },
     {
       "id": "1779760052487-vl1yixlp7",
@@ -35607,6 +35607,18 @@
       "timestamp": "2026-06-08T03:28:50.541Z",
       "action": "บันทึกรายจ่าย",
       "details": "ลงยอด 3684 บาท ในหมวดหมู่ ค่าไฟ"
+    },
+    {
+      "id": "log-1780889791939",
+      "timestamp": "2026-06-08T03:36:31.939Z",
+      "action": "เพิ่มหมวดหมู่รายจ่าย",
+      "details": "เพิ่มหมวดหมู่ \"มาค\""
+    },
+    {
+      "id": "log-1780902923856",
+      "timestamp": "2026-06-08T07:15:23.856Z",
+      "action": "ลบรายการรายจ่าย",
+      "details": "ลบยอดจำนวน 150 บาท ออกจากระบบ"
     }
   ],
   "settings": {
@@ -35657,16 +35669,15 @@
       "name": "ค่าน้ำ",
       "icon": "📝",
       "createdAt": "2026-06-08T03:28:41.328Z"
+    },
+    {
+      "id": "cat-1780889791939",
+      "name": "มาค",
+      "icon": "",
+      "createdAt": "2026-06-08T03:36:31.939Z"
     }
   ],
   "expenses": [
-    {
-      "date": "2026-06-08",
-      "categoryId": "cat-1",
-      "amount": 150,
-      "id": "exp-1780889128847",
-      "createdAt": "2026-06-08T03:25:28.847Z"
-    },
     {
       "date": "2026-06-08",
       "categoryId": "cat-1780889316097",

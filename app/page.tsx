@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { ClipboardList, Settings, TrendingUp, Users, Database, Sunrise, Sunset, Receipt } from 'lucide-react';
 
 export default function HomePage() {
-  const { members, bills } = useStore();
+  const { members, bills , expenses} = useStore();
 
   // 1. แก้ไขการ getToday ให้ล็อกตาม Timezone ไทย (+7 ชั่วโมง) ชัวร์ที่สุด
   const tzOffset = 7 * 60 * 60 * 1000; // +7 hours in ms
@@ -23,6 +23,12 @@ export default function HomePage() {
   const todaySalesTotal = todayBills
   .filter((b) => b.status === 'completed')
   .reduce((sum, b) => sum + (b.totalSales || 0), 0);
+
+  //4.
+    // คัดกรองรายจ่ายเฉพาะวันนั้นๆ
+  const todayExpenses = expenses?.filter((e) => e.date === today) || [];
+  // ยอดรวมรวมของวันปัจจุบัน
+  const todayExpensesTotal = todayExpenses.reduce((sum, item) => sum + item.amount, 0);
   
   const activeMembers = members.filter((m) => m.statusOut === 'active');
 
@@ -67,6 +73,9 @@ export default function HomePage() {
                     <p className="font-semibold text-foreground">
                       {todaySalesTotal.toLocaleString()} บาท
                     </p>
+                    <span className="text-sm text-muted-foreground text-rose-500">
+                      - {todayExpensesTotal.toLocaleString()} บาท
+                    </span>
                   </div>
                 </div>
               </CardContent>
