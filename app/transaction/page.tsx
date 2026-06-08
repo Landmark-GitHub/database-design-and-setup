@@ -437,7 +437,7 @@ export default function TransactionPage() {
                                 <Edit3 className="w-3 h-3 mr-1" />
                                 แก้ไข
                               </Button>
-                              {bill.status === 'completed' && (
+                              {(bill.status === 'completed' || bill.status === 'checkout') && (
                                 <Button
                                   size="sm"
                                   variant="ghost"

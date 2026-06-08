@@ -80,8 +80,9 @@ function LedgerContent() {
   const [isSavingImage, setIsSavingImage] = useState(false);
 
   const printAreaRef = useRef<HTMLDivElement>(null);
+  const printContentRef = useRef<HTMLDivElement>(null);
   const today = getToday();
-  const isToday = selectedDate === today;
+
 
   // นำทางวันที่
   const handlePrevDate = () => {
@@ -113,6 +114,31 @@ function LedgerContent() {
       setSelectedMemberId(activeMembers[0].id);
     }
   }, [selectedMemberId, activeMembers]);
+
+    // Auto font-scale: ถ้าเนื้อหาสูงเกิน A5 (ความสูง 794px ที่ 96dpi) ให้หดตัวอักษรลง
+  useEffect(() => {
+    if (!printContentRef.current || !printAreaRef.current) return;
+    const A5_HEIGHT_PX = 794; // 210mm × (96/25.4)
+    const el = printContentRef.current;
+    // Reset ก่อน
+    el.style.fontSize = '';
+    el.style.transform = '';
+    el.style.transformOrigin = '';
+
+    const contentH = el.scrollHeight;
+    if (contentH > A5_HEIGHT_PX) {
+      const scale = A5_HEIGHT_PX / contentH;
+      // ขั้นต่ำ 0.65 เพื่อป้องกันตัวเล็กเกินอ่านไม่ออก
+      const safeScale = Math.max(scale, 0.65);
+      el.style.transform = `scale(${safeScale})`;
+      el.style.transformOrigin = 'top center';
+      // ปรับ container ให้ shrink ด้วย เพื่อไม่ให้มีช่องว่างด้านล่าง
+      printAreaRef.current.style.height = `${contentH * safeScale}px`;
+    } else {
+      printAreaRef.current.style.height = 'auto';
+    }
+  }, [showPrintPreviewModal, currentBill, mode]);
+  const isToday = selectedDate === today;
 
   // ค้นหาบิลอัตโนมัติเมื่อมีการเปลี่ยนตัวสมาชิกหรือเปลี่ยนวัน
   useEffect(() => {
@@ -170,116 +196,6 @@ function LedgerContent() {
   const previousOwed = previousBill ? previousBill.amountOwed : 0;
 
   
-  // const handleConfirmDayClose = () => {
-  //   if (!currentBill) return;
-
-  //   // 1. คำนวณยอดของบิลวันนี้เพียวๆ (ยอดสินค้าวันนี้ทั้งหมด)
-  //   const { totalSales } = calculateBillTotals(currentBill, products, currentMember);
-    
-  //   // 2. คำนวณแจกแจงรายละเอียดตามที่พี่กำหนด
-  //   const currentProductTotal = totalSales;                               // ยอดสินค้าวันนี้
-  //   const cumulativeOwed = previousOwed;                                 // ยอดค้างสะสม (จากบิลเก่าล่าสุดที่ดึงมาข้างบน)
-  //   const finalAmountOwed = currentProductTotal + cumulativeOwed - (currentBill.amountPaid || 0); // ยอดค้างสุทธิรวม (ยอดสินค้า + ยอดค้างสะสม - ยอดจ่ายวันนี้ถ้ามี)
-
-  //   // 3. แยกร่างคำนวณเฉพาะ "ค่าน้ำแข็ง" ออกมาเพื่อบันทึกเป็นสถิติลงฟิลด์ icePrice
-  //   const dProduct = products.find((p) => p.type === 'D');
-  //   const dItem = dProduct ? currentBill.items.find((item) => item.productId === dProduct.id) : null;
-  //   const dQuantity = dItem ? dItem.totalStock : 0;
-
-  //   const memberClass = currentMember?.class ?? 'In';
-  //   let dPrice = 0;
-  //   if (dProduct) {
-  //     dPrice = memberClass === 'Out' ? (dProduct.priceOut || 0) : memberClass === 'WalkIn' ? (dProduct.priceWorkIn || 0) : (dProduct.priceIn || 0);
-  //   }
-  //   const totalIcePrice = dQuantity * dPrice;
-
-  //   // 4. บันทึกค่าลงฐานข้อมูลอย่างชัดเจน (เพื่อให้เซฟลง store.json ครบทุกฟิลด์)
-  //   updateBill(currentBill.id, { 
-  //     totalSales: currentProductTotal,  // ยอดสินค้าของวันนี้
-  //     previousOwed: cumulativeOwed,     // บันทึกยอดค้างสะสมลงบิลใบนี้ด้วย! (จากเดิมที่ทิ้งเป็น 0)
-  //     amountOwed: finalAmountOwed,      // ยอดค้างสุทธิรวมทั้งหมด
-  //     icePrice: totalIcePrice,  
-  //     status: 'completed'          
-  //   });
-
-  //   setShowCloseConfirm(false);
-  // };
-
-  // const handleConfirmDayClose = () => {
-  //   if (!currentBill) return;
-
-  //   // 1. คำนวณยอดขายเฉพาะของวันนี้ (ยอดรวมสินค้าวันนี้)
-  //   const { totalSales } = calculateBillTotals(currentBill, products, currentMember);
-    
-  //   // 2. จัดการตัวแปรแจกแจงรายละเอียดตามที่พี่ต้องการ
-  //   const currentProductTotal = totalSales;                               // ยอดสินค้าวันนี้
-  //   const cumulativeOwed = previousOwed;                                 // ยอดค้างสะสม (ดึงมาจากบิลเก่าล่าสุด)
-    
-  //   // ยอดค้างสุทธิรวม = ยอดสินค้าวันนี้ + ยอดค้างสะสม - ยอดที่จ่ายเงินในบิลวันนี้
-  //   const finalAmountOwed = currentProductTotal + cumulativeOwed - (currentBill.amountPaid || 0);
-
-  //   // 3. คำนวณเฉพาะ "ค่าน้ำแข็ง" บันทึกเป็นสถิติแนบไปตามปกติ
-  //   const dProduct = products.find((p) => p.type === 'D');
-  //   const dItem = dProduct ? currentBill.items.find((item) => item.productId === dProduct.id) : null;
-  //   const dQuantity = dItem ? dItem.totalStock : 0;
-
-  //   const memberClass = currentMember?.class ?? 'In';
-  //   let dPrice = 0;
-  //   if (dProduct) {
-  //     dPrice = memberClass === 'Out' ? (dProduct.priceOut || 0) : memberClass === 'WalkIn' ? (dProduct.priceWorkIn || 0) : (dProduct.priceIn || 0);
-  //   }
-  //   const totalIcePrice = dQuantity * dPrice;
-
-  //   // 4. สั่ง update บันทึกค่าลงฐานข้อมูล (จะส่งไปเขียนลง store.json ถาวร)
-  //   updateBill(currentBill.id, { 
-  //     totalSales: currentProductTotal,  // บันทึกยอดสินค้าของวัน
-  //     previousOwed: cumulativeOwed,     // บันทึกยอดค้างสะสมลงในฟิลด์บิลใบนี้ (แก้ปัญหาเดิมที่เป็น 0)
-  //     amountOwed: finalAmountOwed >= 0 ? finalAmountOwed : 0, // ยอดค้างสุทธิรวม (ดักไม่ให้ติดลบ)
-  //     icePrice: totalIcePrice,  
-  //     status: 'completed'          
-  //   });
-
-  //   setShowCloseConfirm(false);
-  // };
-
-  // const handleConfirmDayClose = () => {
-  //   if (!currentBill) return;
-
-  //   // 1. คำนวณยอดขายเฉพาะของของวันนี้สุทธิ (ยอดขายสินค้าวันนี้เพียวๆ)
-  //   const { totalSales } = calculateBillTotals(currentBill, products, currentMember);
-    
-  //   // 2. แตกแจงรายละเอียดสถิติข้อมูลตามแผนตารางสรุปใน UI
-  //   const currentProductTotal = totalSales;                               // ยอดสินค้าวันนี้
-  //   const cumulativeOwed = previousOwed;                                 // ยอดค้างสะสมเดิมที่ยกมา
-    
-  //   // ยอดค้างสุทธิรวมทั้งหมด = ยอดสินค้าวันนี้ + ยอดค้างสะสมเดิม - เงินสดที่จ่ายเข้ามาในวันนี้
-  //   const finalAmountOwed = currentProductTotal + cumulativeOwed - (currentBill.amountPaid || 0);
-
-  //   // 3. แยกร่างคำนวณเฉพาะสถิติ "ค่าน้ำแข็ง" แนบประวัติ
-  //   const dProduct = products.find((p) => p.type === 'D');
-  //   const dItem = dProduct ? currentBill.items.find((item) => item.productId === dProduct.id) : null;
-  //   const dQuantity = dItem ? dItem.totalStock : 0;
-
-  //   const memberClass = currentMember?.class ?? 'In';
-  //   let dPrice = 0;
-  //   if (dProduct) {
-  //     dPrice = memberClass === 'Out' ? (dProduct.priceOut || 0) : memberClass === 'WalkIn' ? (dProduct.priceWorkIn || 0) : (dProduct.priceIn || 0);
-  //   }
-  //   const totalIcePrice = dQuantity * dPrice;
-
-  //   // 4. สั่งส่งข้อมูลอัปเดตแยกฟิลด์ บันทึกประวัติ previousOwed ลงไฟล์ระบบอย่างเป็นทางการ
-  //   updateBill(currentBill.id, { 
-  //     totalSales: currentProductTotal,                        // ยอดสินค้าของวัน
-  //     previousOwed: cumulativeOwed,                           // บันทึกยอดค้างสะสมลงในข้อมูลบิลใบนี้ถาวร
-  //     amountOwed: finalAmountOwed >= 0 ? finalAmountOwed : 0, // ยอดค้างสุทธิรวมทั้งหมด (ป้องกันไม่ให้หนี้ติดลบ)
-  //     icePrice: totalIcePrice,  
-  //     status: 'completed'          
-  //   });
-
-  //   setShowCloseConfirm(false);
-  // };
-
-// page.tsx บรรทัด 181-209
 // ✅ แก้แล้ว
   const handleConfirmDayClose = () => {
     if (!currentBill) return;
@@ -476,7 +392,7 @@ function LedgerContent() {
               <DialogTitle>เลือกสมาชิก</DialogTitle>
             </DialogHeader>
             
-            <div ref={printAreaRef} className="space-y-2">
+            <div className="space-y-2">
               {activeMembers.map((member) => (
                 <Button
                   key={member.id}
@@ -522,7 +438,7 @@ function LedgerContent() {
                 bill={currentBill}
                 products={products}
                 mode={mode}
-                readOnly={currentBill.status === 'completed'}
+                readOnly={currentBill.status === 'completed' || currentBill.status === 'checkout'}
                 onItemChange={handleItemChange}
               />
             )}
@@ -1027,22 +943,21 @@ function LedgerContent() {
         </div>
       </footer>
 
-
-      {/* ==================== 🖼️ MODAL PREVIEW บิล (แสดงรายรายการสินค้า) ==================== */}
+      {/* ==================== 🖼️ MODAL PREVIEW บิล ==================== */}
       <Dialog open={showPrintPreviewModal} onOpenChange={setShowPrintPreviewModal}>
-        <DialogContent className="max-w-md w-[95vw] p-0 overflow-hidden gap-0 bg-white text-black border border-neutral-200 shadow-xl max-h-[90vh] flex flex-col rounded-xl">
+        <DialogContent className="max-w-[640px] w-[95vw] p-0 overflow-hidden gap-0 bg-white text-black border border-neutral-200 shadow-xl max-h-[90vh] flex flex-col rounded-xl">
           
           <DialogTitle className="sr-only">
             {mode === 'checkout' ? 'ตัวอย่างใบเบิกสินค้าไอศกรีม' : 'ตัวอย่างใบเสร็จรับเงิน'}
           </DialogTitle>
 
-          {/* แถบหัวกระดาษคอนโทรล */}
+          {/* แถบหัว */}
           <div className="flex items-center justify-between p-3 border-b border-neutral-100 bg-neutral-50 shrink-0">
             <div className="flex items-center gap-1.5 text-neutral-700 font-medium text-sm">
               <ImageIcon className="w-4 h-4 text-primary" />
               <span>ตัวอย่างก่อนบันทึก</span>
             </div>
-            <button 
+            <button
               onClick={() => setShowPrintPreviewModal(false)}
               className="text-neutral-400 hover:text-neutral-600 rounded-lg p-1 hover:bg-neutral-200/50 transition-colors"
             >
@@ -1050,254 +965,275 @@ function LedgerContent() {
             </button>
           </div>
 
-          {/* ตัวครอบด้านนอกสุดให้เลื่อน Scroll ได้ */}
-          <div className="flex-1 overflow-y-auto p-4 bg-neutral-100 flex flex-col items-center min-h-0">
-            
-            {/* แผ่นกระดาษจำลองใบสลิป POS */}
-            <div 
-              ref={printAreaRef} 
-              className="w-[350px] h-auto p-5 bg-white font-mono text-xs leading-relaxed text-neutral-900 shadow-md border border-neutral-200 shrink-0 my-2"
+          {/* พื้นที่ Scroll */}
+          <div className="flex-1 overflow-y-auto py-4 px-6 bg-neutral-100 flex flex-col items-center min-h-0">
+
+            {/* กระดาษจำลอง: 58mm=220px (checkout) / A5=559px (return) */}
+            <div
+              ref={printAreaRef}
+              className="bg-white shadow-md border border-neutral-200 shrink-0 my-2 overflow-hidden"
+              style={{
+                width: mode === 'checkout' ? '280px' : '100%',
+                maxWidth: mode === 'checkout' ? '280px' : '520px',
+                minHeight: '200px',
+              }}
             >
-              {/* เปลี่ยนหัวข้อหลักตามเงื่อนไข Mode ของบิลปัจจุบัน */}
-              <div className="text-center space-y-1 mb-4">
-                <h2 className="text-base font-bold tracking-tight text-neutral-950">
-                  {mode === 'checkout' ? '📋 ใบเบิกสินค้าไอศกรีม' : '🧾 ใบเสร็จรับเงิน / ใบส่งสินค้า'}
-                </h2>
-                <p className="text-[11px] text-neutral-500">ระบบจัดการคลังสินค้าไอศกรีมอัตโนมัติ</p>
-              </div>
+              <div
+                ref={printContentRef}
+                className={cn(
+                  'font-mono leading-relaxed text-neutral-900',
+                  mode === 'checkout' ? 'text-[9px] p-2' : 'text-xs p-6'
+                )}
+                style={{
+                  width: '100%',
+                  boxSizing: 'border-box',
+                }}
+              >
 
-              {/* รายละเอียดหัวบิล */}
-              <div className="space-y-2 text-[11px] text-neutral-600 bg-neutral-50 p-3 rounded-xl border border-neutral-200/60 mb-4 shadow-sm font-sans">
-                
-                {/* ข้อมูลชื่อร้านและเบอร์โทรศัพท์ที่ถูกต้อง */}
-                <div className="text-center border-b border-dashed border-neutral-300 pb-2.5 mb-2">
-                  <h2 className="text-[13px] font-bold text-neutral-950 tracking-wide">
-                    🍦 ร้านไอศครีมโบราณ คลอง 7
+                {/* หัวบิล */}
+                <div className="text-center space-y-0.5 mb-3">
+                  <h2 className={cn('font-bold tracking-tight text-neutral-950', mode === 'checkout' ? 'text-[10px]' : 'text-base')}>
+                    {mode === 'checkout' ? '📋 ใบเบิกสินค้าไอศกรีม' : '🧾 ใบเสร็จรับเงิน / ใบส่งสินค้า'}
                   </h2>
-                  <p className="text-[10px] text-neutral-500 mt-1 leading-relaxed">
-                    📞 โทร. 090-417-1125<br />
-                    📱 064-419-4456 / 064-515-9924
-                  </p>
+                  <p className="text-[8px] text-neutral-400">ระบบจัดการคลังสินค้าไอศกรีมอัตโนมัติ</p>
                 </div>
 
-                {/* แถวที่ 1: ผู้เบิก/ลูกค้า */}
-                <div className="flex justify-between items-center border-b border-neutral-100/70 pb-1.5">
-                  <div className="flex items-center gap-1.5 text-neutral-500">
-                    <span>👤</span>
-                    <span>ผู้เบิก/ลูกค้า:</span>
+                {/* ข้อมูลร้านและหัวบิล */}
+                <div className={cn(
+                  'space-y-1.5 text-neutral-600 bg-neutral-50 rounded-lg border border-neutral-200/60 mb-3 font-sans',
+                  mode === 'checkout' ? 'text-[8px] p-1.5' : 'text-[11px] p-3'
+                )}>
+                  <div className="text-center border-b border-dashed border-neutral-300 pb-1.5 mb-1.5">
+                    <h2 className={cn('font-bold text-neutral-950 tracking-wide', mode === 'checkout' ? 'text-[9px]' : 'text-[13px]')}>
+                      🍦 ร้านไอศครีมโบราณ คลอง 7
+                    </h2>
+                    <p className="text-neutral-500 mt-0.5 leading-relaxed">
+                      📞 090-417-1125 &nbsp;|&nbsp; 064-419-4456 &nbsp;|&nbsp; 064-515-9924
+                    </p>
                   </div>
-                  <span className="font-bold text-neutral-950 bg-neutral-200/50 px-2 py-0.5 rounded-md">
-                    {currentMember?.name || '-'}
-                  </span>
+
+                  {/* ผู้เบิก */}
+                  <div className="flex justify-between items-center border-b border-neutral-100/70 pb-1">
+                    <span className="text-neutral-500">👤 ผู้เบิก/ลูกค้า:</span>
+                    <span className="font-bold text-neutral-950">{currentMember?.name || '-'}</span>
+                  </div>
+
+                  {/* วันที่ */}
+                  <div className="flex justify-between items-center">
+                    <span className="text-neutral-500">📅 วันที่:</span>
+                    <span className="font-medium text-neutral-800">
+                      {currentBill
+                        ? new Date(currentBill.date + 'T00:00:00').toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' })
+                        : '-'}
+                    </span>
+                  </div>
                 </div>
 
-                {/* แถวที่ 2: ประเภทราคา */}
-                <div className="flex justify-between items-center border-b border-neutral-100/70 pb-1.5">
-                  <div className="flex items-center gap-1.5 text-neutral-500">
-                    <span>💰</span>
-                    <span>ประเภทราคา:</span>
-                  </div>
-                  <span className="font-semibold text-neutral-800">
-                    {currentMember?.class === 'Out' ? '💼 ส่งออก (Out)' : currentMember?.class === 'WalkIn' ? '🚶 ลูกค้าภายนอก (WalkIn)' : '🏠 ส่งเข้าคลัง (In)'}
-                  </span>
-                </div>
+                {/* ตารางสินค้า */}
+                <div className="space-y-1">
 
-                {/* แถวที่ 3: วันที่ทำรายการ */}
-                <div className="flex justify-between items-center border-b border-neutral-100/70 pb-1.5">
-                  <div className="flex items-center gap-1.5 text-neutral-500">
-                    <span>📅</span>
-                    <span>วันที่ทำรายการ:</span>
-                  </div>
-                  <span className="text-neutral-800 font-medium">
-                    {currentBill ? new Date(currentBill.date + 'T00:00:00').toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' }) : '-'}
-                  </span>
-                </div>
-
-                {/* แถวที่ 4: Status บิล */}
-                <div className="flex justify-between items-center pt-0.5">
-                  <div className="flex items-center gap-1.5 text-neutral-500">
-                    <span>📄</span>
-                    <span>สถานะเอกสาร:</span>
-                  </div>
-                  <span className={cn(
-                    "font-semibold text-[10px] px-2 py-0.5 rounded-full border", 
-                    currentBill?.status === 'completed' 
-                      ? "text-emerald-700 bg-emerald-50 border-emerald-200" 
-                      : "text-amber-700 bg-amber-50 border-amber-200"
+                  {/* Header ตาราง */}
+                  <div className={cn(
+                    'border-b border-dashed border-neutral-300 pb-1 font-bold grid text-neutral-700',
+                    mode === 'checkout' ? 'text-[8px] grid-cols-12'  : 'text-[11px] grid-cols-14'
                   )}>
-                    {currentBill?.status === 'completed' ? '🔒 ปิดวันสำเร็จ' : '📝 ฉบับร่าง'}
-                  </span>
-                </div>
+                    {mode === 'checkout' ? (
+                      <>
+                        <div className="col-span-6">รายการ</div>
+                        <div className="col-span-2 text-right">จำนวน</div>
+                        <div className="col-span-2 text-right">ราคา</div>
+                        <div className="col-span-2 text-right">รวม</div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="col-span-4">รายการสินค้า</div>
+                        <div className="col-span-2 text-right">รวม</div>
+                        <div className="col-span-2 text-right">เหลือ</div>
+                        <div className="col-span-2 text-right">ขาย</div>
+                        <div className="col-span-2 text-right">ราคา</div>
+                        <div className="col-span-2 text-right">รวมเงิน</div>
+                      </>
+                    )}
+                  </div>
 
-              </div>
+                  {/* รายการสินค้า */}
+                  <div className={cn('space-y-1 py-0.5 text-neutral-800', mode === 'checkout' ? 'text-[8px]' : 'text-xs')}>
+                    {(() => {
+                      let totalItemsPriceSum = 0;
+                      let totalAddonsPriceSum = 0;
+                      const memberClass = currentMember?.class ?? 'In';
 
-              {/* ส่วนโครงสร้างตารางข้อมูลสินค้าภายในบิล */}
-              <div className="space-y-2">
-                <div className="border-b border-dashed border-neutral-300 pb-1.5 font-bold grid grid-cols-12 text-neutral-800 text-[11px]">
-                  <div className="col-span-4">รายการสินค้า</div>
-                  {mode === 'checkout' ? (
-                    <>
-                      <div className="col-span-2 text-right">เก่า</div>
-                      <div className="col-span-2 text-right">ใหม่</div>
-                      <div className="col-span-2 text-right">รวมเบิก</div>
-                      <div className="col-span-2 text-right">ราคา</div>
-                      <div className="col-span-2 text-right">รวมเงิน</div>
-                    </>
-                  ) : (
-                    <>
-                      <div className="col-span-2 text-right">รวม</div>
-                      <div className="col-span-2 text-right">เหลือ</div>
-                      <div className="col-span-2 text-right">ขาย</div>
-                      <div className="col-span-2 text-right">ราคา</div>
-                      <div className="col-span-2 text-right">รวมเงิน</div>
-                    </>
-                  )}
-                </div>
-
-                {/* รายการสินค้าหลัก */}
-                {/* รายการสินค้าหลัก */}
-                {/* รายการสินค้าหลัก */}
-                <div className="space-y-1.5 py-1 text-neutral-800">
-                  {(() => {
-                    // กำหนดตัวแปรสำหรับคำนวณยอดเงินในบล็อกพรีวิว
-                    let totalItemsPriceSum = 0; // ยอดรวมเฉพาะสินค้าหลัก (ไอศกรีม)
-                    let totalAddonsPriceSum = 0; // ยอดรวมค่าบริการเสริม (Car, House, D)
-
-                    const memberClass = currentMember?.class ?? 'In';
-
-                    // ==========================================
-                    // 1. โหมดเบิกสินค้า (Checkout): แสดงแยกรายรายการสินค้า
-                    // ==========================================
-                    if (mode === 'checkout') {
-                      // วนลูปแสดงสินค้าหลัก (ไม่รวม Car, House และไม่รวม D ในตารางหลัก)
-                      const mainItemsHtml = currentBill?.items
-                        .filter((item) => {
-                          const prod = products.find((p) => p.id === item.productId);
-                          return prod && prod.type !== 'Car' && prod.type !== 'House' && prod.type !== 'D';
-                        })
-                        .map((item) => {
-                          const prod = products.find((p) => p.id === item.productId)!;
-                          
-                          let price = 0;
-                          if (memberClass === 'Out') price = prod.priceOut || 0;
-                          else if (memberClass === 'WalkIn') price = prod.priceWorkIn || 0;
-                          else price = prod.priceIn || 0;
-
-                          if (item.totalStock === 0 && item.newStock === 0) return null;
-
-                          const itemTotalPrice = item.totalStock * price;
-                          totalItemsPriceSum += itemTotalPrice;
-
-                          return (
-                            <div key={item.productId} className="grid grid-cols-12 items-center text-[11px] gap-y-0.5 border-b border-neutral-100 pb-1 last:border-0">
-                              <div className="col-span-4 font-medium truncate">{prod.name}</div>
-                              <div className="col-span-2 text-right text-neutral-500">{item.oldStock}</div>
-                              <div className="col-span-2 text-right font-medium text-emerald-600">+{item.newStock}</div>
-                              <div className="col-span-2 text-right font-semibold text-neutral-900">{item.totalStock}</div>
-                              <div className="col-span-2 text-right text-neutral-600">{price}</div>
-                              <div className="col-span-2 text-right font-bold text-neutral-900">
-                                {itemTotalPrice.toLocaleString()}
+                      // ── Checkout ──────────────────────────────────────
+                      if (mode === 'checkout') {
+                        const mainItemsHtml = currentBill?.items
+                          .filter((item) => {
+                            const prod = products.find((p) => p.id === item.productId);
+                            return prod && prod.type !== 'Car' && prod.type !== 'House' && prod.type !== 'D';
+                          })
+                          .map((item) => {
+                            const prod = products.find((p) => p.id === item.productId)!;
+                            let price = memberClass === 'Out' ? prod.priceOut || 0 : memberClass === 'WalkIn' ? prod.priceWorkIn || 0 : prod.priceIn || 0;
+                            if (item.totalStock === 0 && item.newStock === 0) return null;
+                            const itemTotalPrice = item.totalStock * price;
+                            totalItemsPriceSum += itemTotalPrice;
+                            return (
+                              <div key={item.productId} className="grid grid-cols-12 gap-2 items-center text-xl border-b border-neutral-100 pb-0.5 last:border-0">
+                                <div className="col-span-6 font-medium truncate">{prod.name}</div>
+                                <div className="col-span-2 text-right font-semibold">{item.totalStock}</div>
+                                <div className="col-span-2 text-right text-neutral-500">{price}</div>
+                                <div className="col-span-2 text-right font-bold">{itemTotalPrice.toLocaleString()}</div>
                               </div>
+                            );
+                          });
+
+                        // คำนวณ Addons
+                        const dProduct = products.find((p) => p.type === 'D');
+                        const dItem = dProduct ? currentBill?.items?.find((i) => i.productId === dProduct.id) : null;
+                        const dQuantity = dItem?.totalStock || 0;
+                        if (dProduct && dQuantity > 0) {
+                          const dPrice = memberClass === 'Out' ? dProduct.priceOut : memberClass === 'WalkIn' ? dProduct.priceWorkIn : dProduct.priceIn;
+                          totalAddonsPriceSum += dQuantity * (dPrice || 0);
+                        }
+                        if (memberClass === 'In') {
+                          if (currentMember?.statusIn?.house) { const h = products.find((p) => p.type === 'House'); if (h) totalAddonsPriceSum += h.priceIn || 0; }
+                          if (currentMember?.statusIn?.car)   { const c = products.find((p) => p.type === 'Car');   if (c) totalAddonsPriceSum += c.priceIn || 0; }
+                        }
+
+                        const finalCheckoutTotalToday = totalItemsPriceSum + totalAddonsPriceSum;
+                        const totalDebtWithCheckout = finalCheckoutTotalToday + previousOwed;
+
+                        return (
+                          <>
+                            {mainItemsHtml}
+
+                            {/* Addons */}
+                            {totalAddonsPriceSum > 0 && (
+                              <div className="space-y-0.5 pt-1 border-t text-xl border-neutral-200 mt-1.5">
+                                <div className="font-bold text-neutral-400 mb-0.5">ค่าบริการเสริม</div>
+                                {memberClass === 'In' && currentMember?.statusIn?.house && (() => {
+                                  const h = products.find((p) => p.type === 'House'); if (!h) return null;
+                                  return <div className="grid grid-cols-12"><div className="col-span-10">🏠 ค่าแพ็กเกจบ้าน</div><div className="col-span-2 text-right font-bold">+{h.priceIn.toLocaleString()}</div></div>;
+                                })()}
+                                {memberClass === 'In' && currentMember?.statusIn?.car && (() => {
+                                  const c = products.find((p) => p.type === 'Car'); if (!c) return null;
+                                  return <div className="grid grid-cols-12"><div className="col-span-10">🚗 ค่าแพ็กเกจรถ</div><div className="col-span-2 text-right font-bold">+{c.priceIn.toLocaleString()}</div></div>;
+                                })()}
+                                {dProduct && dQuantity > 0 && (() => {
+                                  const dPrice = memberClass === 'Out' ? dProduct.priceOut : memberClass === 'WalkIn' ? dProduct.priceWorkIn : dProduct.priceIn;
+                                  return <div className="grid grid-cols-12"><div className="col-span-10">🧊 น้ำแข็งแห้ง {dQuantity} x {dPrice?.toLocaleString()}</div><div className="col-span-2 text-right font-bold">+{(dQuantity * (dPrice || 0)).toLocaleString()}</div></div>;
+                                })()}
+                              </div>
+                            )}
+
+                            {/* สรุป Checkout */}
+                            <div className="border-t border-dashed border-neutral-300 mt-2 pt-1.5 space-y-0.5 text-xl">
+                              <div className="flex justify-between text-neutral-500">
+                                <span>ค่าสินค้า:</span><span>{totalItemsPriceSum.toLocaleString()} บาท</span>
+                              </div>
+                              <div className="flex justify-between text-neutral-500">
+                                <span>ค่าบริการเสริม:</span><span>{totalAddonsPriceSum.toLocaleString()} บาท</span>
+                              </div>
+                              <div className="flex justify-between font-semibold border-t border-neutral-100 pt-0.5">
+                                <span>ยอดวันนี้:</span><span>{finalCheckoutTotalToday.toLocaleString()} บาท</span>
+                              </div>
+                              <div className="flex justify-between text-neutral-500">
+                                <span>หนี้เดิม:</span><span>{Math.round(previousOwed).toLocaleString()} บาท</span>
+                              </div>
+                              <div className={cn('flex justify-between font-bold mt-0.5 p-1 rounded border', mode === 'checkout' ? 'text-xl' : 'text-sm')}>
+                                <span>ยอดสุทธิ์:</span>
+                                <span className={totalDebtWithCheckout > 0 ? 'text-red-600 text-xl' : 'text-neutral-950'}>
+                                  {Math.round(totalDebtWithCheckout).toLocaleString()} บาท
+                                </span>
+                              </div>
+                              {currentBill?.notes && (
+                                <div className="mt-1 text-neutral-400 italic bg-neutral-50 p-1 rounded border border-neutral-100">
+                                  * {currentBill.notes}
+                                </div>
+                              )}
                             </div>
-                          );
+                          </>
+                        );
+                      }
+
+                      // ── Return ────────────────────────────────────────
+                      Array.from(new Set(products.map((p) => p.type)))
+                        .filter((t) => t !== 'D' && t !== 'Car' && t !== 'House')
+                        .forEach((type) => {
+                          const tp = products.filter((p) => p.type === type);
+                          const ti = currentBill?.items.filter((item) => tp.some((p) => p.id === item.productId)) || [];
+                          const typeStock = ti.reduce((s, i) => s + i.totalStock, 0);
+                          const returnedInput = currentBill?.returnInputs?.[type] ?? 0;
+                          const actualSold = Math.max(0, typeStock - returnedInput);
+                          const base = tp[0];
+                          const price = memberClass === 'Out' ? base?.priceOut || 0 : memberClass === 'WalkIn' ? base?.priceWorkIn || 0 : base?.priceIn || 0;
+                          totalItemsPriceSum += actualSold * price;
                         });
 
-                      // คำนวณค่าน้ำแข็งแห้ง (Type D) ในโหมด Checkout
-                      const dProduct = products.find((p) => p.type === 'D');
-                      const dItem = dProduct ? currentBill?.items?.find((item) => item.productId === dProduct.id) : null;
-                      const dQuantity = dItem?.totalStock || 0;
-                      if (dProduct && dQuantity > 0) {
-                        let dPrice = memberClass === 'Out' ? dProduct.priceOut : memberClass === 'WalkIn' ? dProduct.priceWorkIn : dProduct.priceIn;
-                        totalAddonsPriceSum += dQuantity * (dPrice || 0);
+                      const dProductReturn = products.find((p) => p.type === 'D');
+                      const dItemReturn = dProductReturn ? currentBill?.items?.find((i) => i.productId === dProductReturn.id) : null;
+                      const dQuantityReturn = dItemReturn?.totalStock || 0;
+                      if (dProductReturn && dQuantityReturn > 0) {
+                        const dPrice = memberClass === 'Out' ? dProductReturn.priceOut : memberClass === 'WalkIn' ? dProductReturn.priceWorkIn : dProductReturn.priceIn;
+                        totalAddonsPriceSum += dQuantityReturn * (dPrice || 0);
                       }
-
-                      // คำนวณค่าแพ็กเกจประจำบ้าน/รถ (เฉพาะคลัง In)
                       if (memberClass === 'In') {
-                        if (currentMember?.statusIn?.house) {
-                          const houseProd = products.find((p) => p.type === 'House');
-                          if (houseProd) totalAddonsPriceSum += houseProd.priceIn || 0;
-                        }
-                        if (currentMember?.statusIn?.car) {
-                          const carProd = products.find((p) => p.type === 'Car');
-                          if (carProd) totalAddonsPriceSum += carProd.priceIn || 0;
-                        }
+                        if (currentMember?.statusIn?.house) { const h = products.find((p) => p.type === 'House'); if (h) totalAddonsPriceSum += h.priceIn || 0; }
+                        if (currentMember?.statusIn?.car)   { const c = products.find((p) => p.type === 'Car');   if (c) totalAddonsPriceSum += c.priceIn || 0; }
                       }
 
-                      const finalCheckoutTotalToday = totalItemsPriceSum + totalAddonsPriceSum;
-                      const totalDebtWithCheckout = finalCheckoutTotalToday + previousOwed;
+                      const finalReturnTotalToday = totalItemsPriceSum + totalAddonsPriceSum;
+                      const amountPaidToday = currentBill?.amountPaid || 0;
+                      const finalOwedAmount = (finalReturnTotalToday + previousOwed) - amountPaidToday;
 
                       return (
                         <>
-                          {mainItemsHtml}
+                          {Array.from(new Set(products.map((p) => p.type)))
+                            .filter((t) => t !== 'D' && t !== 'Car' && t !== 'House')
+                            .map((type) => {
+                              const tp = products.filter((p) => p.type === type);
+                              const ti = currentBill?.items.filter((item) => tp.some((p) => p.id === item.productId)) || [];
+                              const typeStock = ti.reduce((s, i) => s + i.totalStock, 0);
+                              if (typeStock === 0) return null;
+                              const returnedInput = currentBill?.returnInputs?.[type] ?? 0;
+                              const actualSold = typeStock - returnedInput;
+                              const base = tp[0];
+                              const price = memberClass === 'Out' ? base?.priceOut || 0 : memberClass === 'WalkIn' ? base?.priceWorkIn || 0 : base?.priceIn || 0;
+                              const typeLabel = PRODUCT_TYPE_LABELS[type as keyof typeof PRODUCT_TYPE_LABELS] || type;
+                              return (
+                                <div key={type} className="grid grid-cols-14 gap-0 items-center text-sm gap-y-0.5 border-b border-neutral-100 pb-1 last:border-0">
+                                  <div className="col-span-4 font-medium truncate">{typeLabel}</div>
+                                  <div className="col-span-2 text-right text-neutral-500">{typeStock}</div>
+                                  <div className="col-span-2 text-right text-neutral-500">{returnedInput}</div>
+                                  <div className="col-span-2 text-right font-semibold">{Math.max(0, actualSold)}</div>
+                                  <div className="col-span-2 text-right text-neutral-500">{price}</div>
+                                  <div className="col-span-2 text-right font-bold">{Math.max(0, actualSold * price).toLocaleString()}</div>
+                                </div>
+                              );
+                            })}
 
-                          {/* 🧊 ส่วนแสดงค่าบริการ / ค่าแพ็กเกจเสริมท้ายบิล (Car, House, D) */}
-                          {(totalAddonsPriceSum > 0) && (
+                          {/* Addons Return */}
+                          {totalAddonsPriceSum > 0 && (
                             <div className="space-y-1 pt-1.5 border-t border-neutral-200 mt-2">
                               <div className="text-[10px] font-bold text-neutral-400 mb-1">ค่าบริการ / แพ็กเกจเสริม</div>
-                              
-                              {memberClass === 'In' && currentMember?.statusIn?.house && (() => {
-                                const houseProd = products.find((p) => p.type === 'House');
-                                if (!houseProd) return null;
-                                return (
-                                  <div className="grid grid-cols-12 text-[11px] text-neutral-700 items-center">
-                                    <div className="col-span-8">🏠 ค่าแพ็กเกจประจำบ้าน</div>
-                                    <div className="col-span-2 text-right text-neutral-600">{houseProd.priceIn}</div>
-                                    <div className="col-span-2 text-right font-bold text-neutral-900">+{houseProd.priceIn.toLocaleString()}</div>
-                                  </div>
-                                );
-                              })()}
-
-                              {memberClass === 'In' && currentMember?.statusIn?.car && (() => {
-                                const carProd = products.find((p) => p.type === 'Car');
-                                if (!carProd) return null;
-                                return (
-                                  <div className="grid grid-cols-12 text-[11px] text-neutral-700 items-center">
-                                    <div className="col-span-8">🚗 ค่าแพ็กเกจประจำรถ</div>
-                                    <div className="col-span-2 text-right text-neutral-600">{carProd.priceIn}</div>
-                                    <div className="col-span-2 text-right font-bold text-neutral-900">+{carProd.priceIn.toLocaleString()}</div>
-                                  </div>
-                                );
-                              })()}
-
-                              {dProduct && dQuantity > 0 && (() => {
-                                let dPrice = memberClass === 'Out' ? dProduct.priceOut : memberClass === 'WalkIn' ? dProduct.priceWorkIn : dProduct.priceIn;
-                                return (
-                                  <div className="grid grid-cols-12 text-[11px] text-neutral-700 items-center">
-                                    <div className="col-span-6">🧊 น้ำแข็งแห้ง (จำนวน {dQuantity})</div>
-                                    <div className="col-span-4 text-right text-neutral-600">{dPrice} / ชิ้น</div>
-                                    <div className="col-span-2 text-right font-bold text-neutral-900">+{(dQuantity * (dPrice || 0)).toLocaleString()}</div>
-                                  </div>
-                                );
-                              })()}
+                              {memberClass === 'In' && currentMember?.statusIn?.house && (() => { const h = products.find((p) => p.type === 'House'); if (!h) return null; return <div className="grid grid-cols-12 text-[11px] text-neutral-700 items-center"><div className="col-span-8">🏠 ค่าแพ็กเกจประจำบ้าน</div><div className="col-span-2 text-right text-neutral-600">{h.priceIn}</div><div className="col-span-2 text-right font-bold">+{h.priceIn.toLocaleString()}</div></div>; })()}
+                              {memberClass === 'In' && currentMember?.statusIn?.car && (() => { const c = products.find((p) => p.type === 'Car'); if (!c) return null; return <div className="grid grid-cols-12 text-[11px] text-neutral-700 items-center"><div className="col-span-8">🚗 ค่าแพ็กเกจประจำรถ</div><div className="col-span-2 text-right text-neutral-600">{c.priceIn}</div><div className="col-span-2 text-right font-bold">+{c.priceIn.toLocaleString()}</div></div>; })()}
+                              {dProductReturn && dQuantityReturn > 0 && (() => { const dPrice = memberClass === 'Out' ? dProductReturn.priceOut : memberClass === 'WalkIn' ? dProductReturn.priceWorkIn : dProductReturn.priceIn; return <div className="grid grid-cols-12 text-[11px] text-neutral-700 items-center"><div className="col-span-6">🧊 น้ำแข็งแห้ง (จำนวน {dQuantityReturn})</div><div className="col-span-4 text-right text-neutral-600">{dPrice} / ชิ้น</div><div className="col-span-2 text-right font-bold">+{(dQuantityReturn * (dPrice || 0)).toLocaleString()}</div></div>; })()}
                             </div>
                           )}
 
-                          {/* ส่วนท้ายบิลสรุปตัวเลขแบบที่ 1 (Checkout) */}
+                          {/* สรุป Return */}
                           <div className="border-t border-dashed border-neutral-300 mt-3 pt-2 space-y-1 text-xs">
-                            <div className="flex justify-between text-neutral-600">
-                              <span>ค่าสินค้าไอศกรีมรวมวันนี้:</span>
-                              <span className="font-medium text-neutral-900">{totalItemsPriceSum.toLocaleString()} บาท</span>
-                            </div>
-                            <div className="flex justify-between text-neutral-600">
-                              <span>ค่าบริการเสริมรวมวันนี้:</span>
-                              <span className="font-medium text-neutral-900">{totalAddonsPriceSum.toLocaleString()} บาท</span>
-                            </div>
-                            <div className="flex justify-between text-neutral-700 font-semibold border-t border-neutral-100 pt-1">
-                              <span>ยอดเบิกรวมสุทธิวันนี้:</span>
-                              <span className="text-neutral-950">{finalCheckoutTotalToday.toLocaleString()} บาท</span>
-                            </div>
-                            <div className="flex justify-between text-neutral-600">
-                              <span>หนี้ค้างชำระสะสมเดิม:</span>
-                              <span className="font-medium text-neutral-900">{Math.round(previousOwed).toLocaleString()} บาท</span>
-                            </div>
-                            
-                            <div className="flex justify-between items-center font-bold text-sm text-neutral-950 bg-neutral-50 p-1.5 rounded border border-neutral-200 mt-1">
+                            <div className="flex justify-between text-neutral-600"><span>ค่าสินค้าไอศกรีมรวมวันนี้:</span><span className="font-medium">{totalItemsPriceSum.toLocaleString()} บาท</span></div>
+                            <div className="flex justify-between text-neutral-600"><span>ค่าบริการเสริมรวมวันนี้:</span><span className="font-medium">{totalAddonsPriceSum.toLocaleString()} บาท</span></div>
+                            <div className="flex justify-between font-semibold border-t border-neutral-100 pt-1"><span>ยอดเบิกรวมสุทธิวันนี้:</span><span>{finalReturnTotalToday.toLocaleString()} บาท</span></div>
+                            <div className="flex justify-between text-neutral-600"><span>หนี้ค้างชำระสะสมเดิม:</span><span className="font-medium">{Math.round(previousOwed).toLocaleString()} บาท</span></div>
+                            <div className="flex justify-between bg-neutral-50 p-1 rounded border border-neutral-150"><span className="font-semibold">ชำระเงินวันนี้:</span><span className="font-bold">-{Math.round(amountPaidToday).toLocaleString()} บาท</span></div>
+                            <div className="flex justify-between items-center font-bold text-sm bg-neutral-50 p-1.5 rounded border border-neutral-200 mt-1">
                               <span>ยอดหนี้สะสมรวมทั้งหมด:</span>
-                              <span className={totalDebtWithCheckout > 0 ? "text-red-600" : "text-neutral-950"}>
-                                {Math.round(totalDebtWithCheckout).toLocaleString()} บาท
+                              <span className={finalOwedAmount > 0 ? 'text-red-600' : 'text-emerald-600'}>
+                                {finalOwedAmount > 0 ? Math.round(finalOwedAmount).toLocaleString() : '0'} บาท
                               </span>
                             </div>
-
                             {currentBill?.notes && (
                               <div className="mt-2 text-[10px] text-neutral-500 italic bg-neutral-50 p-1.5 rounded border border-neutral-100">
                                 * หมายเหตุ: {currentBill.notes}
@@ -1306,198 +1242,26 @@ function LedgerContent() {
                           </div>
                         </>
                       );
-                    }
-
-                    // ==========================================
-                    // 2. โหมดบันทึกยอด (Return): จัดกลุ่มยอดขายจริงตามประเภทสินค้า
-                    // ==========================================
-                    // คำนวณยอดไอศกรีมที่ขายได้จริง (ยอดเบิกหักยอดคืน)
-                    Array.from(new Set(products.map((p) => p.type)))
-                      .filter((type) => type !== 'D' && type !== 'Car' && type !== 'House')
-                      .forEach((type) => {
-                        const typeProducts = products.filter((p) => p.type === type);
-                        const typeItems = currentBill?.items.filter((item) => typeProducts.some((p) => p.id === item.productId)) || [];
-                        const typeStock = typeItems.reduce((sum, i) => sum + i.totalStock, 0);
-                        const returnedInput = currentBill?.returnInputs?.[type] ?? 0;
-                        const actualSold = Math.max(0, typeStock - returnedInput);
-
-                        const baseProduct = typeProducts[0];
-                        let price = 0;
-                        if (memberClass === 'Out') price = baseProduct?.priceOut || 0;
-                        else if (memberClass === 'WalkIn') price = baseProduct?.priceWorkIn || 0;
-                        else price = baseProduct?.priceIn || 0;
-
-                        totalItemsPriceSum += actualSold * price;
-                      });
-
-                    // คำนวณค่าบริการเสริมในโหมด Return
-                    const dProductReturn = products.find((p) => p.type === 'D');
-                    const dItemReturn = dProductReturn ? currentBill?.items?.find((item) => item.productId === dProductReturn.id) : null;
-                    const dQuantityReturn = dItemReturn?.totalStock || 0;
-                    if (dProductReturn && dQuantityReturn > 0) {
-                      let dPrice = memberClass === 'Out' ? dProductReturn.priceOut : memberClass === 'WalkIn' ? dProductReturn.priceWorkIn : dProductReturn.priceIn;
-                      totalAddonsPriceSum += dQuantityReturn * (dPrice || 0);
-                    }
-
-                    if (memberClass === 'In') {
-                      if (currentMember?.statusIn?.house) {
-                        const houseProd = products.find((p) => p.type === 'House');
-                        if (houseProd) totalAddonsPriceSum += houseProd.priceIn || 0;
-                      }
-                      if (currentMember?.statusIn?.car) {
-                        const carProd = products.find((p) => p.type === 'Car');
-                        if (carProd) totalAddonsPriceSum += carProd.priceIn || 0;
-                      }
-                    }
-
-                    const finalReturnTotalToday = totalItemsPriceSum + totalAddonsPriceSum;
-                    const amountPaidToday = currentBill?.amountPaid || 0;
-                    const finalOwedAmount = (finalReturnTotalToday + previousOwed) - amountPaidToday;
-
-                    return (
-                      <>
-                        {/* ตารางวนลูปแสดงยอดขายแยกประเภท */}
-                        {Array.from(new Set(products.map((p) => p.type)))
-                          .filter((type) => type !== 'D' && type !== 'Car' && type !== 'House')
-                          .map((type) => {
-                            const typeProducts = products.filter((p) => p.type === type);
-                            const typeItems = currentBill?.items.filter((item) => typeProducts.some((p) => p.id === item.productId)) || [];
-                            
-                            const typeStock = typeItems.reduce((sum, i) => sum + i.totalStock, 0);
-                            if (typeStock === 0) return null;
-
-                            const returnedInput = currentBill?.returnInputs?.[type] ?? 0;
-                            const actualSold = typeStock - returnedInput;
-
-                            const baseProduct = typeProducts[0];
-                            let price = 0;
-                            if (memberClass === 'Out') price = baseProduct?.priceOut || 0;
-                            else if (memberClass === 'WalkIn') price = baseProduct?.priceWorkIn || 0;
-                            else price = baseProduct?.priceIn || 0;
-
-                            const typeLabel = PRODUCT_TYPE_LABELS[type as keyof typeof PRODUCT_TYPE_LABELS] || type;
-
-                            return (
-                              <div key={type} className="grid grid-cols-12 items-center text-[11px] gap-y-0.5 border-b border-neutral-100 pb-1 last:border-0">
-                                <div className="col-span-4 font-medium truncate">{typeLabel}</div>
-                                <div className="col-span-2 text-right text-neutral-500">{typeStock}</div>
-                                <div className="col-span-2 text-right text-neutral-500">{returnedInput}</div>
-                                <div className="col-span-2 text-right font-semibold text-neutral-900">{Math.max(0, actualSold)}</div>
-                                <div className="col-span-2 text-right text-neutral-600">{price}</div>
-                                <div className="col-span-2 text-right font-bold text-neutral-900">
-                                  {Math.max(0, actualSold * price).toLocaleString()}
-                                </div>
-                              </div>
-                            );
-                          })}
-                        
-                        {/* 🧊 ส่วนแสดงค่าบริการ / ค่าแพ็กเกจเสริมท้ายบิล สำหรับโหมด Return */}
-                        {(totalAddonsPriceSum > 0) && (
-                          <div className="space-y-1 pt-1.5 border-t border-neutral-200 mt-2">
-                            <div className="text-[10px] font-bold text-neutral-400 mb-1">ค่าบริการ / แพ็กเกจเสริม</div>
-                            
-                            {memberClass === 'In' && currentMember?.statusIn?.house && (() => {
-                              const houseProd = products.find((p) => p.type === 'House');
-                              if (!houseProd) return null;
-                              return (
-                                <div className="grid grid-cols-12 text-[11px] text-neutral-700 items-center">
-                                  <div className="col-span-8">🏠 ค่าแพ็กเกจประจำบ้าน</div>
-                                  <div className="col-span-2 text-right text-neutral-600">{houseProd.priceIn}</div>
-                                  <div className="col-span-2 text-right font-bold text-neutral-900">+{houseProd.priceIn.toLocaleString()}</div>
-                                </div>
-                              );
-                            })()}
-
-                            {memberClass === 'In' && currentMember?.statusIn?.car && (() => {
-                              const carProd = products.find((p) => p.type === 'Car');
-                              if (!carProd) return null;
-                              return (
-                                <div className="grid grid-cols-12 text-[11px] text-neutral-700 items-center">
-                                  <div className="col-span-8">🚗 ค่าแพ็กเกจประจำรถ</div>
-                                  <div className="col-span-2 text-right text-neutral-600">{carProd.priceIn}</div>
-                                  <div className="col-span-2 text-right font-bold text-neutral-900">+{carProd.priceIn.toLocaleString()}</div>
-                                </div>
-                              );
-                            })()}
-
-                            {dProductReturn && dQuantityReturn > 0 && (() => {
-                              let dPrice = memberClass === 'Out' ? dProductReturn.priceOut : memberClass === 'WalkIn' ? dProductReturn.priceWorkIn : dProductReturn.priceIn;
-                              return (
-                                <div className="grid grid-cols-12 text-[11px] text-neutral-700 items-center">
-                                  <div className="col-span-6">🧊 น้ำแข็งแห้ง (จำนวน {dQuantityReturn})</div>
-                                  <div className="col-span-4 text-right text-neutral-600">{dPrice} / ชิ้น</div>
-                                  <div className="col-span-2 text-right font-bold text-neutral-900">+{(dQuantityReturn * (dPrice || 0)).toLocaleString()}</div>
-                                </div>
-                              );
-                            })()}
-                          </div>
-                        )}
-
-                        {/* ส่วนท้ายบิลสรุปตัวเลขแบบที่ 2 (Return - ปรับปรุงให้บล็อกแสดงผลเหมือนกับ Checkout) */}
-                        <div className="border-t border-dashed border-neutral-300 mt-3 pt-2 space-y-1 text-xs">
-                          <div className="flex justify-between text-neutral-600">
-                            <span>ค่าสินค้าไอศกรีมรวมวันนี้:</span>
-                            <span className="font-medium text-neutral-900">{totalItemsPriceSum.toLocaleString()} บาท</span>
-                          </div>
-                          <div className="flex justify-between text-neutral-600">
-                            <span>ค่าบริการเสริมรวมวันนี้:</span>
-                            <span className="font-medium text-neutral-900">{totalAddonsPriceSum.toLocaleString()} บาท</span>
-                          </div>
-                          <div className="flex justify-between text-neutral-700 font-semibold border-t border-neutral-100 pt-1">
-                            <span>ยอดเบิกรวมสุทธิวันนี้:</span>
-                            <span className="text-neutral-950">{finalReturnTotalToday.toLocaleString()} บาท</span>
-                          </div>
-                          <div className="flex justify-between text-neutral-600">
-                            <span>หนี้ค้างชำระสะสมเดิม:</span>
-                            <span className="font-medium text-neutral-900">{Math.round(previousOwed).toLocaleString()} บาท</span>
-                          </div>
-                          <div className="flex justify-between text-neutral-600 bg-neutral-50 p-1 rounded border border-neutral-150">
-                            <span className="font-semibold text-neutral-800">ชำระเงินวันนี้:</span>
-                            <span className="font-bold text-neutral-900">-{Math.round(amountPaidToday).toLocaleString()} บาท</span>
-                          </div>
-                          
-                          <div className="flex justify-between items-center font-bold text-sm text-neutral-950 bg-neutral-50 p-1.5 rounded border border-neutral-200 mt-1">
-                            <span>ยอดหนี้สะสมรวมทั้งหมด:</span>
-                            <span className={finalOwedAmount > 0 ? "text-red-600" : "text-emerald-600"}>
-                              {finalOwedAmount > 0 ? Math.round(finalOwedAmount).toLocaleString() : '0'} บาท
-                            </span>
-                          </div>
-
-                          {currentBill?.notes && (
-                            <div className="mt-2 text-[10px] text-neutral-500 italic bg-neutral-50 p-1.5 rounded border border-neutral-100">
-                              * หมายเหตุ: {currentBill.notes}
-                            </div>
-                          )}
-                        </div>
-                      </>
-                    );
-                  })()}
+                    })()}
+                  </div>
                 </div>
-              </div>
-            </div>
+
+              </div>{/* /printContentRef */}
+            </div>{/* /printAreaRef */}
 
           </div>
 
-          {/* แถบปุ่มบันทึก JPG ด้านล่าง */}
+          {/* ปุ่มด้านล่าง */}
           <div className="p-3 bg-neutral-50 border-t border-neutral-100 flex gap-2 shrink-0 justify-end">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => setShowPrintPreviewModal(false)}
-              className="text-neutral-500 border-neutral-200"
-            >
+            <Button variant="outline" size="sm" onClick={() => setShowPrintPreviewModal(false)} className="text-neutral-500 border-neutral-200">
               ปิดหน้าต่าง
             </Button>
-            <Button 
-              size="sm" 
-              onClick={handleSaveAsJpg}
-              disabled={isSavingImage}
-              className="bg-neutral-900 hover:bg-neutral-800 text-white gap-1 px-4 font-medium"
-            >
+            <Button size="sm" onClick={handleSaveAsJpg} disabled={isSavingImage} className="bg-neutral-900 hover:bg-neutral-800 text-white gap-1 px-4 font-medium">
               <Save className="w-4 h-4" />
               {isSavingImage ? 'กำลังบันทึก...' : 'บันทึกรูปภาพ (JPG)'}
             </Button>
           </div>
+
         </DialogContent>
       </Dialog>
 
@@ -1549,5 +1313,6 @@ function LedgerContent() {
 export default function LedgerPage() {
   return <LedgerContent />;
 }
+
 
 

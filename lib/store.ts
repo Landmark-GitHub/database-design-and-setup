@@ -81,6 +81,25 @@ async function saveToJSON(state: AppState): Promise<void> {
   }
 }
 
+
+
+// // ===== เปลี่ยนฟังก์ชันบันทึกข้อมูลใน store.ts =====
+// async function saveToJSON(state: AppState) {
+//   try {
+//     // ยิง POST ตรงไปที่ Google Sheets เลย
+//     await fetch(GOOGLE_SHEETS_API_URL, {
+//       method: 'POST',
+//       mode: 'no-cors', // ⚠️ สำคัญมาก: Google Apps Script มักจะติดเรื่อง CORS สำหรับขอยิง POST 
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify(state),
+//     });
+//   } catch (error) {
+//     console.error('Error saving to Google Sheets:', error);
+//   }
+// }
+
 // ===== STORE INTERFACE =====
 interface StoreActions {
   addMember: (name: string) => Member;

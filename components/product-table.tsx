@@ -1,8 +1,27 @@
+
+
 // 'use client';
 
-// import { Bill, Product, groupProductsByCategory, PRODUCT_CATEGORY_LABELS, ProductCategory } from '@/lib/types';
+// import { Bill, Product } from '@/lib/types';
 // import { Input } from '@/components/ui/input';
 // import { cn } from '@/lib/utils';
+// import {
+//   Accordion,
+//   AccordionContent,
+//   AccordionItem,
+//   AccordionTrigger,
+// } from "@/components/ui/accordion";
+
+// // ส่วนที่เพิ่ม: ตัวแปลงชื่อภาษาไทยตามที่คุณกำหนด
+// const PRODUCT_TYPE_LABELS: Record<string, string> = {
+//   XL: 'แท่งใหญ่',
+//   S: 'แท่งเล็ก',
+//   Sandwich: 'แซนวิช',
+//   Cup: 'ถ้วย',
+//   Coffee: 'กาแฟ',
+//   Cone: 'โคน', // ปรับเปลี่ยนตามความเหมาะสมได้ครับ
+//   D: 'น้ำแข็งแห้ง'
+// };
 
 // interface ProductTableProps {
 //   bill: Bill;
@@ -14,13 +33,10 @@
 
 // export function ProductTable({ bill, products, mode, readOnly, onItemChange }: ProductTableProps) {
   
-//   // 1. กรองเอาสินค้าประเภท House และ Car ออกไปเหมือนเดิม (เก็บน้ำแข็งแห้ง 'D' เอาไว้)
 //   const filteredProducts = products.filter(
 //     (product) => product.type !== 'House' && product.type !== 'Car'
 //   );
 
-//   // 2. 🔥 แก้ปัญหา: เปลี่ยนมาจัดกลุ่มตาม "product.type" แทน category
-//   // วิธีนี้จะทำให้สินค้าแต่ละชิ้นวิ่งไปลงชื่อกลุ่มของตัวเองได้อย่างแม่นยำ
 //   const groupedProducts: Record<string, Product[]> = {};
 //   filteredProducts.forEach((product) => {
 //     const typeGroup = product.type; 
@@ -30,135 +46,136 @@
 //     groupedProducts[typeGroup].push(product);
 //   });
 
-//   // 3. 🔥 กำหนดกลุ่มที่ต้องการลูปแสดงผลบนหน้าจอ (ใส่ 'D' แทน 'null')
-//   // สังเกตว่าเราใช้คำสะกด 'Sandwich' ให้ตรงกับในภาพสองแล้วนะครับ
-//   const categories: string[] = ['XL', 'S', 'Coffee', 'Sandwich', 'Cup', 'Cone', 'D'];
-
-//   const handleInputChange = (productId: string, field: 'newStock' | 'returned', value: string) => {
-//     const numValue = parseInt(value) || 0;
-//     if (numValue < 0) return;
-//     onItemChange(productId, field, numValue);
-//   };
+//   // ลำดับการเรียงลำดับดึงจาก Key ของ Object
+//   const displayOrder = ['XL', 'S', 'Coffee','Sandwich', 'Cup', 'Cone', 'D'];
 
 //   return (
-//     <div className="space-y-4">
-//       {categories.map((category) => {
-//         const categoryProducts = groupedProducts[category] || [];
-//         if (categoryProducts.length === 0) return null;
+//     <Accordion type="multiple" defaultValue={['XL', 'S']} className="w-full space-y-3">
+//       {displayOrder.map((type) => {
+//         const typeProducts = groupedProducts[type] || [];
+//         if (typeProducts.length === 0) return null;
 
-//         // Get bill items for this category
-//         const categoryItems = categoryProducts.map((product) => {
+//         const categoryItems = typeProducts.map((product) => {
 //           const item = bill.items.find((i) => i.productId === product.id);
 //           return { product, item };
 //         });
 
-//         // Calculate category totals (ยอดรวมตรงนี้จะถูกลดลงอัตโนมัติตามสินค้าที่ถูกกรองออก)
 //         const catOldTotal = categoryItems.reduce((sum, { item }) => sum + (item?.oldStock || 0), 0);
 //         const catNewTotal = categoryItems.reduce((sum, { item }) => sum + (item?.newStock || 0), 0);
 //         const catTotal = categoryItems.reduce((sum, { item }) => sum + (item?.totalStock || 0), 0);
 //         const catReturnedTotal = categoryItems.reduce((sum, { item }) => sum + (item?.returned || 0), 0);
 //         const catSoldTotal = categoryItems.reduce((sum, { item }) => sum + (item?.sold || 0), 0);
 
+//         const totalItemsInGroup = categoryItems.reduce((sum, { item }) => {
+//           if (!item) return sum;
+//           return sum + (mode === 'checkout' ? (item.newStock || 0) : (item.returned || 0));
+//         }, 0);
+
 //         return (
-//           <div key={category} className="bg-card rounded-lg border border-border overflow-hidden">
-//             {/* Category Header with Summary */}
-//             <div className="bg-muted/50 px-4 py-3 border-b border-border">
-//               <h3 className="font-bold text-foreground mb-3">{PRODUCT_CATEGORY_LABELS[category]}</h3>
-              
-//               {mode === 'checkout' ? (
-//                 // Checkout mode: เก่า | ใหม่ | รวม
-//                 <div className="grid grid-cols-3 gap-4 text-center">
-//                   <div>
-//                     <div className="text-xs text-muted-foreground mb-1">เก่า</div>
-//                     <div className="text-xl font-semibold text-muted-foreground">{catOldTotal}</div>
-//                   </div>
-//                   <div>
-//                     <div className="text-xs text-muted-foreground mb-1">ใหม่</div>
-//                     <div className="text-xl font-bold text-foreground">{catNewTotal}</div>
-//                   </div>
-//                   <div>
-//                     <div className="text-xs text-muted-foreground mb-1">รวม</div>
-//                     <div className="text-xl font-bold text-primary">{catTotal}</div>
-//                   </div>
+//           <AccordionItem key={type} value={type} className="border rounded-xl bg-card px-4">
+//             <AccordionTrigger className="hover:no-underline py-3">
+//               <div className="flex flex-col sm:flex-row sm:items-center justify-between w-full pr-4 gap-2">
+                
+//                 {/* 🔥 จุดที่แก้ไข: ดึงชื่อภาษาไทยจาก PRODUCT_TYPE_LABELS มาแสดงผล 
+//                   ถ้าไม่มีใน Object ให้ใช้ชื่อ type เดิม (Fallback กันพัง)
+//                 */}
+//                 <span className="font-bold text-base text-foreground">
+//                   {PRODUCT_TYPE_LABELS[type] || `ประเภท ${type}`}
+//                 </span>
+
+//                 <div className="flex flex-wrap items-center gap-2">
+//                   <span className="bg-red-400 text-white text-xs px-2.5 py-0.5 rounded-full font-semibold">
+//                     เก่า {catOldTotal}
+//                   </span>
+
+//                   {mode === 'checkout' ? (
+//                     <>
+//                       <span className="bg-green-500 text-white text-xs px-2.5 py-0.5 rounded-full font-semibold">
+//                         ใหม่ {catNewTotal}
+//                       </span>
+//                       <span className="bg-blue-500 text-white text-xs px-2.5 py-0.5 rounded-full font-semibold">
+//                         รวม {catTotal}
+//                       </span>
+//                     </>
+//                   ) : (
+//                     <>
+//                       <span className="bg-red-400 text-white text-xs px-2.5 py-0.5 rounded-full font-semibold">
+//                         เหลือ {catReturnedTotal}
+//                       </span>
+//                       <span className="bg-green-500/10 text-green-600 text-xs px-2.5 py-0.5 rounded-full font-semibold">
+//                         ขาย {catSoldTotal}
+//                       </span>
+//                     </>
+//                   )}
+
+//                   {/* {totalItemsInGroup > 0 && (
+//                     <span className="bg-primary/10 text-primary text-xs px-2.5 py-0.5 rounded-full font-semibold">
+//                       คีย์แล้ว {totalItemsInGroup} ชิ้น
+//                     </span>
+//                   )} */}
 //                 </div>
-//               ) : (
-//                 // Return mode: รวม | เหลือ | ขาย
-//                 <div className="grid grid-cols-3 gap-4 text-center">
-//                   <div>
-//                     <div className="text-xs text-muted-foreground mb-1">รวม</div>
-//                     <div className="text-xl font-semibold text-muted-foreground">{catTotal}</div>
-//                   </div>
-//                   <div>
-//                     <div className="text-xs text-muted-foreground mb-1">เหลือ</div>
-//                     <div className="text-xl font-bold text-foreground">{catReturnedTotal}</div>
-//                   </div>
-//                   <div>
-//                     <div className="text-xs text-muted-foreground mb-1">ขาย</div>
-//                     <div className="text-xl font-bold text-primary">{catSoldTotal}</div>
-//                   </div>
-//                 </div>
-//               )}
-//             </div>
 
-//             {/* Table Header */}
-//             <div className="flex items-center justify-between px-4 py-2 bg-muted/30 text-xs font-medium text-muted-foreground border-b border-border">
-//               <span>รายการ</span>
-//               <span>{mode === 'checkout' ? 'จำนวนใหม่' : 'จำนวนเหลือ'}</span>
-//             </div>
+//               </div>
+//             </AccordionTrigger>
 
-//             {/* Table Rows */}
-//             <div className="divide-y divide-border">
-//               {categoryItems.map(({ product, item }) => {
-//                 if (!item) return null;
+//             <AccordionContent className="pt-1 pb-4">
+//               <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+//                 {categoryItems
+//                   .sort((a, b) => a.product.sortOrder - b.product.sortOrder)
+//                   .map(({ product, item }) => {
+//                     if (!item) return null;
 
-//                 return (
-//                   <div
-//                     key={product.id}
-//                     className={cn(
-//                       'flex items-center justify-between px-4 py-3',
-//                       mode === 'checkout' && item.newStock > 0 && 'bg-primary/5',
-//                       mode === 'return' && item.returned > 0 && 'bg-primary/5'
-//                     )}
-//                   >
-//                     <span className="text-sm text-foreground">{product.name}</span>
+//                     return (
+//                       <div
+//                         key={product.id}
+//                         className={cn(
+//                           "flex items-center justify-between p-3 rounded-lg border bg-muted/30 transition-colors",
+//                           mode === 'checkout' && item.newStock > 0 && 'bg-green-500/10 border-green-500 border-4',
+//                           mode === 'return' && item.returned > 0 && 'bg-amber-500/10 border-amber-500/20 border-4'
+//                         )}
+//                       >
+//                         <span className="text-sm font-medium text-foreground">{product.name}</span>
 
-//                     {mode === 'checkout' ? (
-//                       <Input
-//                         type="number"
-//                         inputMode="numeric"
-//                         min="0"
-//                         value={item.newStock || ''}
-//                         onChange={(e) => handleInputChange(product.id, 'newStock', e.target.value)}
-//                         disabled={readOnly}
-//                         className="w-20 h-9 text-center text-sm"
-//                         placeholder="0"
-//                       />
-//                     ) : (
-//                       <Input
-//                         type="number"
-//                         inputMode="numeric"
-//                         min="0"
-//                         max={item.totalStock}
-//                         value={item.returned || ''}
-//                         onChange={(e) => handleInputChange(product.id, 'returned', e.target.value)}
-//                         disabled={readOnly}
-//                         className="w-20 h-9 text-center text-sm"
-//                         placeholder="0"
-//                       />
-//                     )}
-//                   </div>
-//                 );
-//               })}
-//             </div>
-//           </div>
+//                         {mode === 'checkout' ? (
+//                           <Input
+//                             type="number"
+//                             inputMode="numeric"
+//                             min="0"
+//                             value={item.newStock || ''}
+//                             onChange={(e) => onItemChange(product.id, 'newStock', parseInt(e.target.value) || 0)}
+//                             disabled={readOnly}
+//                             className="w-20 h-9 text-center text-sm font-semibold"
+//                             placeholder="0"
+//                           />
+//                         ) : (
+//                           <Input
+//                             type="number"
+//                             inputMode="numeric"
+//                             min="0"
+//                             max={item.totalStock}
+//                             value={item.returned || ''}
+//                             onChange={(e) => onItemChange(product.id, 'returned', parseInt(e.target.value) || 0)}
+//                             disabled={readOnly}
+//                             className="w-20 h-9 text-center text-sm font-semibold"
+//                             placeholder="0"
+//                           />
+//                         )}
+//                       </div>
+//                     );
+//                   })}
+//               </div>
+//             </AccordionContent>
+//           </AccordionItem>
 //         );
 //       })}
-//     </div>
+//     </Accordion>
 //   );
 // }
 
+
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Bill, Product } from '@/lib/types';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
@@ -168,15 +185,16 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Button } from '@/components/ui/button';
+import { LayoutGrid, List } from 'lucide-react';
 
-// ส่วนที่เพิ่ม: ตัวแปลงชื่อภาษาไทยตามที่คุณกำหนด
 const PRODUCT_TYPE_LABELS: Record<string, string> = {
   XL: 'แท่งใหญ่',
   S: 'แท่งเล็ก',
   Sandwich: 'แซนวิช',
   Cup: 'ถ้วย',
   Coffee: 'กาแฟ',
-  Cone: 'โคน', // ปรับเปลี่ยนตามความเหมาะสมได้ครับ
+  Cone: 'โคน',
   D: 'น้ำแข็งแห้ง'
 };
 
@@ -189,11 +207,17 @@ interface ProductTableProps {
 }
 
 export function ProductTable({ bill, products, mode, readOnly, onItemChange }: ProductTableProps) {
-  
+  const [viewMode, setViewMode] = useState<'accordion' | 'grid'>('grid'); 
+
+  // 1. กรองสินค้าตัดเฉพาะกลุ่ม House และ Car ออก
   const filteredProducts = products.filter(
     (product) => product.type !== 'House' && product.type !== 'Car'
   );
 
+  // 2. เรียงลำดับสินค้าตามค่า sortOrder ที่ตั้งมาจาก Database คงที่
+  const sortedProducts = [...filteredProducts].sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
+
+  // 3. จัดกลุ่มข้อมูลแยกตาม Type สำหรับคำนวณแถบสรุปประเภท
   const groupedProducts: Record<string, Product[]> = {};
   filteredProducts.forEach((product) => {
     const typeGroup = product.type; 
@@ -203,128 +227,249 @@ export function ProductTable({ bill, products, mode, readOnly, onItemChange }: P
     groupedProducts[typeGroup].push(product);
   });
 
-  // ลำดับการเรียงลำดับดึงจาก Key ของ Object
-  const displayOrder = ['XL', 'S', 'Coffee','Sandwich', 'Cup', 'Cone', 'D'];
+  const displayOrder = ['XL', 'S', 'Coffee', 'Sandwich', 'Cup', 'Cone', 'D'];
+
+  // --- คำนวณยอดรวมบนกลุ่ม Tab ด้านบนแบบ Real-time ตาม Input ---
+  const typeTotals = displayOrder.reduce((acc, type) => {
+    const typeProducts = groupedProducts[type] || [];
+    let oldSum = 0;
+    let inputSum = 0;
+
+    typeProducts.forEach((product) => {
+      const item = bill.items.find((i) => i.productId === product.id);
+      if (item) {
+        oldSum += item.oldStock || 0;
+        inputSum += mode === 'checkout' ? (item.newStock || 0) : (item.returned || 0);
+      }
+    });
+
+    acc[type] = { oldTotal: oldSum, inputTotal: inputSum };
+    return acc;
+  }, {} as Record<string, { oldTotal: number; inputTotal: number }>);
+
+  // 4. ฟังก์ชันพิมพ์ตัวเลขลงในช่องอินพุตโดยตรง
+  const handleInputChange = (productId: string, valueStr: string, maxStock: number = Infinity) => {
+    if (readOnly) return;
+    const finalVal = parseInt(valueStr) || 0;
+    if (finalVal < 0) return;
+    if (mode === 'return' && finalVal > maxStock) return;
+
+    onItemChange(productId, mode === 'checkout' ? 'newStock' : 'returned', finalVal);
+  };
 
   return (
-    <Accordion type="multiple" defaultValue={['XL', 'S']} className="w-full space-y-3">
-      {displayOrder.map((type) => {
-        const typeProducts = groupedProducts[type] || [];
-        if (typeProducts.length === 0) return null;
+    <div className="w-full space-y-4 px-1">
+      {/* ส่วนหัว: ปุ่มควบคุมการสลับโหมดมุมมอง */}
+      <div className="flex justify-end gap-2">
+        <Button
+          variant={viewMode === 'accordion' ? 'default' : 'outline'}
+          size="sm"
+          onClick={() => setViewMode('accordion')}
+          className="gap-1.5 h-9 rounded-lg text-xs"
+        >
+          <List className="w-4 h-4" /> แบบกลุ่ม
+        </Button>
+        <Button
+          variant={viewMode === 'grid' ? 'default' : 'outline'}
+          size="sm"
+          onClick={() => setViewMode('grid')}
+          className="gap-1.5 h-9 rounded-lg text-xs"
+        >
+          <LayoutGrid className="w-4 h-4" /> แบบตารางภาพ
+        </Button>
+      </div>
 
-        const categoryItems = typeProducts.map((product) => {
-          const item = bill.items.find((i) => i.productId === product.id);
-          return { product, item };
-        });
+      {/* ================= โหมดที่ 1: ACCORDION MODE ================= */}
+      {viewMode === 'accordion' && (
+        <Accordion type="multiple" defaultValue={['XL', 'S']} className="w-full space-y-3">
+          {displayOrder.map((type) => {
+            const typeProducts = groupedProducts[type] || [];
+            if (typeProducts.length === 0) return null;
 
-        const catOldTotal = categoryItems.reduce((sum, { item }) => sum + (item?.oldStock || 0), 0);
-        const catNewTotal = categoryItems.reduce((sum, { item }) => sum + (item?.newStock || 0), 0);
-        const catTotal = categoryItems.reduce((sum, { item }) => sum + (item?.totalStock || 0), 0);
-        const catReturnedTotal = categoryItems.reduce((sum, { item }) => sum + (item?.returned || 0), 0);
-        const catSoldTotal = categoryItems.reduce((sum, { item }) => sum + (item?.sold || 0), 0);
+            const categoryItems = typeProducts.map((product) => {
+              const item = bill.items.find((i) => i.productId === product.id) || {
+                productId: product.id, oldStock: 0, newStock: 0, totalStock: 0, returned: 0, sold: 0
+              };
+              return { product, item };
+            });
 
-        const totalItemsInGroup = categoryItems.reduce((sum, { item }) => {
-          if (!item) return sum;
-          return sum + (mode === 'checkout' ? (item.newStock || 0) : (item.returned || 0));
-        }, 0);
+            return (
+              <AccordionItem key={type} value={type} className="border rounded-xl bg-card px-4">
+                <AccordionTrigger className="hover:no-underline py-3">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between w-full pr-4 gap-2">
+                    <span className="font-bold text-base text-foreground">
+                      {PRODUCT_TYPE_LABELS[type] || `ประเภท ${type}`}
+                    </span>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="bg-muted text-muted-foreground text-xs px-2.5 py-0.5 rounded-full font-semibold">
+                        เก่า {typeTotals[type]?.oldTotal || 0}
+                      </span>
+                      {typeTotals[type]?.inputTotal > 0 && (
+                        <span className={cn(
+                          "text-xs px-2.5 py-0.5 rounded-full font-semibold text-white",
+                          mode === 'checkout' ? "bg-green-500" : "bg-amber-500"
+                        )}>
+                          {mode === 'checkout' ? `ใหม่ +${typeTotals[type].inputTotal}` : `คืน ${typeTotals[type].inputTotal}`}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </AccordionTrigger>
 
-        return (
-          <AccordionItem key={type} value={type} className="border rounded-xl bg-card px-4">
-            <AccordionTrigger className="hover:no-underline py-3">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between w-full pr-4 gap-2">
+                <AccordionContent className="pt-1 pb-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    {categoryItems
+                      .sort((a, b) => a.product.sortOrder - b.product.sortOrder)
+                      .map(({ product, item }) => {
+                        const currentQty = mode === 'checkout' ? (item?.newStock || 0) : (item?.returned || 0);
+
+                        return (
+                          <div
+                            key={product.id}
+                            className={cn(
+                              "flex items-center justify-between p-3 rounded-lg border bg-muted/30 transition-colors",
+                              mode === 'checkout' && (item?.newStock || 0) > 0 && 'bg-green-500/10 border-green-500 border-2',
+                              mode === 'return' && (item?.returned || 0) > 0 && 'bg-amber-500/10 border-amber-500 border-2'
+                            )}
+                          >
+                            <span className="text-sm font-medium text-foreground">{product.name}</span>
+                            <Input
+                              type="number"
+                              inputMode="numeric"
+                              min="0"
+                              max={mode === 'return' ? item?.totalStock : undefined}
+                              value={currentQty || ''}
+                              onChange={(e) => handleInputChange(product.id, e.target.value, item?.totalStock)}
+                              disabled={readOnly}
+                              className="w-20 h-9 text-center text-sm font-semibold bg-background"
+                              placeholder="0"
+                            />
+                          </div>
+                        );
+                      })}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            );
+          })}
+        </Accordion>
+      )}
+
+      {/* ================= โหมดที่ 2: GRID MODE (ลื่นไหล 100% ไร้ปัญหาระบบลาก) ================= */}
+      {viewMode === 'grid' && (
+        <div className="space-y-4">
+          
+          {/* แถบเมนู (Tab) แสดงยอดรวมแยกตามประเภท */}
+          <div className="w-full bg-muted/40 border rounded-2xl p-2.5">
+            <div className="text-[10px] font-bold text-muted-foreground mb-1.5 px-1">
+              📊 สรุปยอดเก่าและรายการกรอกแยกตามประเภท (Type)
+            </div>
+            <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-7 gap-1.5">
+              {displayOrder.map((type) => {
+                const totals = typeTotals[type] || { oldTotal: 0, inputTotal: 0 };
+                if (!groupedProducts[type]) return null;
                 
-                {/* 🔥 จุดที่แก้ไข: ดึงชื่อภาษาไทยจาก PRODUCT_TYPE_LABELS มาแสดงผล 
-                  ถ้าไม่มีใน Object ให้ใช้ชื่อ type เดิม (Fallback กันพัง)
-                */}
-                <span className="font-bold text-base text-foreground">
-                  {PRODUCT_TYPE_LABELS[type] || `ประเภท ${type}`}
-                </span>
+                return (
+                  <div 
+                    key={type} 
+                    className="bg-card border rounded-lg p-1.5 flex flex-col items-center justify-center text-center shadow-sm min-w-0"
+                  >
+                    <span className="text-[10px] font-bold text-muted-foreground truncate w-full">
+                      {PRODUCT_TYPE_LABELS[type] || type}
+                    </span>
+                    <div className="flex flex-col items-center justify-center mt-0.5 leading-tight">
+                      <span className="text-xs font-black text-foreground">
+                        {totals.oldTotal}
+                      </span>
+                      {totals.inputTotal > 0 && (
+                        <span className={cn(
+                          "text-[9px] font-extrabold mt-0.5 px-1 rounded-sm",
+                          mode === 'checkout' ? "text-green-600 bg-green-50" : "text-amber-600 bg-amber-50"
+                        )}>
+                          {mode === 'checkout' ? `+${totals.inputTotal}` : `เหลือ ${totals.inputTotal}`}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
 
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="bg-red-400 text-white text-xs px-2.5 py-0.5 rounded-full font-semibold">
-                    เก่า {catOldTotal}
+          {/* ตารางสินค้า Grid แบบปกติ: สไลด์นิ้วเลื่อนหน้าจอได้นุ่มนวลสูงสุด ขยาย px-2 เพื่อเพิ่มร่องระยะปลอดภัยข้างจอ */}
+          <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-7 gap-1.5 sm:gap-2.5 px-2">
+            {sortedProducts.map((product) => {
+              const item = bill.items.find((i) => i.productId === product.id) || {
+                productId: product.id, oldStock: 0, newStock: 0, totalStock: 0, returned: 0, sold: 0
+              };
+              const currentQty = mode === 'checkout' ? (item.newStock || 0) : (item.returned || 0);
+              const isSelected = currentQty > 0;
+              
+              return (
+                <div
+                  key={product.id}
+                  className={cn(
+                    "relative bg-card border rounded-xl flex flex-col items-center p-1.5 pb-2 select-none group transition-all shadow-sm gap-1 min-w-0",
+                    isSelected && mode === 'checkout' && "border-green-500 ring-2 ring-green-500/10 bg-green-500/[0.01]",
+                    isSelected && mode === 'return' && "border-amber-500 ring-2 ring-amber-500/10 bg-amber-500/[0.01]"
+                  )}
+                >
+                  {/* ป้ายชนิดสินค้ามุมขวาบน */}
+                  <span className="absolute top-1 right-1 text-[8px] font-black bg-muted text-muted-foreground px-1 rounded">
+                    {product.type}
                   </span>
 
-                  {mode === 'checkout' ? (
-                    <>
-                      <span className="bg-green-500 text-white text-xs px-2.5 py-0.5 rounded-full font-semibold">
-                        ใหม่ {catNewTotal}
-                      </span>
-                      <span className="bg-blue-500 text-white text-xs px-2.5 py-0.5 rounded-full font-semibold">
-                        รวม {catTotal}
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <span className="bg-red-400 text-white text-xs px-2.5 py-0.5 rounded-full font-semibold">
-                        เหลือ {catReturnedTotal}
-                      </span>
-                      <span className="bg-green-500/10 text-green-600 text-xs px-2.5 py-0.5 rounded-full font-semibold">
-                        ขาย {catSoldTotal}
-                      </span>
-                    </>
-                  )}
+                  {/* รูปภาพสินค้า */}
+                  <div className="w-full flex justify-center pt-2 min-h-[40px] items-center">
+                    {product.imageUrl ? (
+                      <img 
+                        src={product.imageUrl} 
+                        alt={product.name} 
+                        className="w-9 h-9 object-cover rounded-lg pointer-events-none"
+                        onError={(e) => {
+                          (e.target as HTMLElement).style.display = 'none';
+                        }}
+                      />
+                    ) : (
+                      <span className="text-xl select-none">🍦</span>
+                    )}
+                  </div>
 
-                  {/* {totalItemsInGroup > 0 && (
-                    <span className="bg-primary/10 text-primary text-xs px-2.5 py-0.5 rounded-full font-semibold">
-                      คีย์แล้ว {totalItemsInGroup} ชิ้น
-                    </span>
-                  )} */}
+                  {/* ชื่อสินค้า */}
+                  <div className="text-[10px] font-bold text-center line-clamp-1 px-0.5 w-full text-foreground min-h-[16px] flex items-center justify-center">
+                    {product.name}
+                  </div>
+
+                  {/* สต็อกเดิม */}
+                  <div className="text-[9px] text-muted-foreground/80 flex gap-1 font-medium scale-90">
+                    <span>เก่า:{item.oldStock}</span>
+                    {mode === 'return' && <span>เบิก:{item.totalStock}</span>}
+                  </div>
+
+                  {/* ช่องกรอกจำนวนสินค้า */}
+                  <div className="w-full mt-0.5">
+                    <Input
+                      type="number"
+                      inputMode="numeric"
+                      min="0"
+                      max={mode === 'return' ? item.totalStock : undefined}
+                      value={currentQty || ''}
+                      onChange={(e) => handleInputChange(product.id, e.target.value, item.totalStock)}
+                      disabled={readOnly}
+                      placeholder="0"
+                      className={cn(
+                        "w-full h-7 text-center font-black text-sm rounded-lg bg-muted/40 border focus-visible:ring-1 focus-visible:ring-primary [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none px-1",
+                        isSelected && mode === 'checkout' && "bg-green-500/5 border-green-300 text-green-700",
+                        isSelected && mode === 'return' && "bg-amber-500/5 border-amber-300 text-amber-700"
+                      )}
+                    />
+                  </div>
                 </div>
-
-              </div>
-            </AccordionTrigger>
-
-            <AccordionContent className="pt-1 pb-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                {categoryItems
-                  .sort((a, b) => a.product.sortOrder - b.product.sortOrder)
-                  .map(({ product, item }) => {
-                    if (!item) return null;
-
-                    return (
-                      <div
-                        key={product.id}
-                        className={cn(
-                          "flex items-center justify-between p-3 rounded-lg border bg-muted/30 transition-colors",
-                          mode === 'checkout' && item.newStock > 0 && 'bg-green-500/10 border-green-500 border-4',
-                          mode === 'return' && item.returned > 0 && 'bg-amber-500/10 border-amber-500/20 border-4'
-                        )}
-                      >
-                        <span className="text-sm font-medium text-foreground">{product.name}</span>
-
-                        {mode === 'checkout' ? (
-                          <Input
-                            type="number"
-                            inputMode="numeric"
-                            min="0"
-                            value={item.newStock || ''}
-                            onChange={(e) => onItemChange(product.id, 'newStock', parseInt(e.target.value) || 0)}
-                            disabled={readOnly}
-                            className="w-20 h-9 text-center text-sm font-semibold"
-                            placeholder="0"
-                          />
-                        ) : (
-                          <Input
-                            type="number"
-                            inputMode="numeric"
-                            min="0"
-                            max={item.totalStock}
-                            value={item.returned || ''}
-                            onChange={(e) => onItemChange(product.id, 'returned', parseInt(e.target.value) || 0)}
-                            disabled={readOnly}
-                            className="w-20 h-9 text-center text-sm font-semibold"
-                            placeholder="0"
-                          />
-                        )}
-                      </div>
-                    );
-                  })}
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        );
-      })}
-    </Accordion>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
