@@ -637,13 +637,15 @@
 //                       const dItem = currentBill?.items?.find((item) => item.productId === dProduct.id);
 //                       const quantity = dItem?.totalStock || 0;
 //                       if (quantity === 0) return null;
+//                       const memberClass = currentMember?.class ?? 'In';
+//                       const dPrice = memberClass === 'Out' ? dProduct.priceOut || 0 : memberClass === 'WalkIn' ? dProduct.priceWalkIn || 0 : dProduct.priceIn || 0;
 //                       return (
 //                         <div className="flex justify-between items-center">
 //                           <span className="text-sm text-muted-foreground flex items-center gap-1">
-//                             🧊 <span>น้ำแข็งแห้ง {dProduct.priceIn} × {quantity}</span>
+//                             🧊 <span>น้ำแข็งแห้ง {dPrice} × {quantity}</span>
 //                           </span>
 //                           <span className="text-sm font-semibold text-chart-2">
-//                             +{(dProduct.priceIn * quantity).toLocaleString()} บาท
+//                             +{(dPrice * quantity).toLocaleString()} บาท
 //                           </span>
 //                         </div>
 //                       );
@@ -793,14 +795,16 @@
 
 //                         const dItem = currentBill?.items?.find((item) => item.productId === dProduct.id);
 //                         const quantity = dItem?.totalStock || 0;
+//                         const memberClass = currentMember?.class ?? 'In';
+//                         const dPrice = memberClass === 'Out' ? dProduct.priceOut || 0 : memberClass === 'WalkIn' ? dProduct.priceWalkIn || 0 : dProduct.priceIn || 0;
 
 //                         return (
 //                           <div className="flex justify-between items-center">
 //                             <span className="text-sm text-muted-foreground flex items-center gap-1">
-//                               🚗 <span>น้ำแข็งแห้ง {dProduct.priceIn} * {quantity}</span>
+//                               🧊 <span>น้ำแข็งแห้ง {dPrice} * {quantity}</span>
 //                             </span>
 //                             <span className="text-sm font-semibold text-chart-2">
-//                               +{(dProduct.priceIn * quantity).toLocaleString()} บาท
+//                               +{(dPrice * quantity).toLocaleString()} บาท
 //                             </span>
 //                           </div>
 //                         );
@@ -1325,11 +1329,12 @@
 
 
 
+
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useStore } from '@/lib/store';
-import { Bill, calculateBillTotals, getProductPrice, PRODUCT_TYPE_LABELS } from '@/lib/types';
+import { Bill, calculateBillTotals, getProductPrice, getMemberClass, PRODUCT_TYPE_LABELS } from '@/lib/types';
 import { ProductTable } from '@/components/product-table';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -1531,12 +1536,7 @@ function LedgerContent() {
     const dProduct = products.find((p) => p.type === 'D');
     const dItem = dProduct ? currentBill.items.find((item) => item.productId === dProduct.id) : null;
     const dQuantity = dItem ? dItem.totalStock : 0;
-    const memberClass = currentMember?.class ?? 'In';
-    const dPrice = dProduct
-      ? memberClass === 'Out' ? dProduct.priceOut
-      : memberClass === 'WalkIn' ? dProduct.priceWalkIn
-      : dProduct.priceIn
-      : 0;
+    const dPrice = dProduct ? getProductPrice(dProduct, currentMember) : 0;
 
     // updateBill จะ recalculate totalSales และ amountOwed ให้อัตโนมัติ
     // ไม่ต้องส่ง amountOwed มาเองเพราะจะ double-count previousOwed
@@ -1893,7 +1893,6 @@ function LedgerContent() {
                     {Array.from(
                       new Set(products.filter((p) => p.type !== 'D' && p.type !== 'Car' && p.type !== 'House').map((p) => p.type))
                     ).map((type) => {
-                      const memberClass = currentMember?.class ?? 'In';
                       const typeProducts = products.filter((p) => p.type === type);
                       const typeItems = currentBill.items.filter((item) => typeProducts.some((p) => p.id === item.productId));
 
@@ -1904,10 +1903,7 @@ function LedgerContent() {
                       if (typeTotal === 0 && typeNew === 0) return null;
 
                       const baseProduct = typeProducts[0];
-                      let price = 0;
-                      if (memberClass === 'Out') price = baseProduct?.priceOut || 0;
-                      else if (memberClass === 'WalkIn') price = baseProduct?.priceWalkIn || 0;
-                      else price = baseProduct?.priceIn || 0;
+                      const price = baseProduct ? getProductPrice(baseProduct, currentMember) : 0;
 
                       const typeLabel = PRODUCT_TYPE_LABELS[type as keyof typeof PRODUCT_TYPE_LABELS] || type;
 
@@ -1928,7 +1924,7 @@ function LedgerContent() {
                       );
                     })}
 
-                    {currentMember?.class === 'In' && currentMember?.statusIn?.house && (() => {
+                    {getMemberClass(currentMember) === 'In' && currentMember?.statusIn?.house && (() => {
                       const houseProd = products.find((p) => p.type === 'House');
                       if (!houseProd) return null;
                       return (
@@ -1937,13 +1933,13 @@ function LedgerContent() {
                             🏠 <span>แพ็กเกจบ้าน</span>
                           </span>
                           <span className="text-sm font-semibold text-chart-2">
-                            +{(houseProd.priceIn).toLocaleString()} บาท
+                            +{getProductPrice(houseProd, currentMember).toLocaleString()} บาท
                           </span>
                         </div>
                       );
                     })()}
 
-                    {currentMember?.class === 'In' && currentMember?.statusIn?.car && (() => {
+                    {getMemberClass(currentMember) === 'In' && currentMember?.statusIn?.car && (() => {
                       const carProd = products.find((p) => p.type === 'Car');
                       if (!carProd) return null;
                       return (
@@ -1952,7 +1948,7 @@ function LedgerContent() {
                             🚗 <span>แพ็กเกจรถ</span>
                           </span>
                           <span className="text-sm font-semibold text-chart-2">
-                            +{(carProd.priceIn).toLocaleString()} บาท
+                            +{getProductPrice(carProd, currentMember).toLocaleString()} บาท
                           </span>
                         </div>
                       );
@@ -1964,8 +1960,7 @@ function LedgerContent() {
                       const dItem = currentBill?.items?.find((item) => item.productId === dProduct.id);
                       const quantity = dItem?.totalStock || 0;
                       if (quantity === 0) return null;
-                      const memberClass = currentMember?.class ?? 'In';
-                      const dPrice = memberClass === 'Out' ? dProduct.priceOut || 0 : memberClass === 'WalkIn' ? dProduct.priceWalkIn || 0 : dProduct.priceIn || 0;
+                      const dPrice = getProductPrice(dProduct, currentMember);
                       return (
                         <div className="flex justify-between items-center">
                           <span className="text-sm text-muted-foreground flex items-center gap-1">
@@ -2052,7 +2047,7 @@ function LedgerContent() {
                       {Array.from(new Set(products.map((p) => p.type)))
                         .filter((type) => type !== 'D' && type !== 'Car' && type !== 'House')
                         .map((type) => {
-                          const memberClass = currentMember?.class ?? 'In';
+                          const memberClass = getMemberClass(currentMember);
                           const typeProducts = products.filter((p) => p.type === type);
                           const typeItems = currentBill.items.filter((item) => typeProducts.some((p) => p.id === item.productId));
                           const typeStock = typeItems.reduce((sum, i) => sum + i.totalStock, 0);
@@ -2086,7 +2081,7 @@ function LedgerContent() {
                           );
                         })}
 
-                      {currentMember?.class === 'In' && currentMember?.statusIn?.house && (() => {
+                      {getMemberClass(currentMember) === 'In' && currentMember?.statusIn?.house && (() => {
                         const houseProd = products.find((p) => p.type === 'House');
                         if (!houseProd) return null;
                         return (
@@ -2101,7 +2096,7 @@ function LedgerContent() {
                         );
                       })()}
 
-                      {currentMember?.class === 'In' && currentMember?.statusIn?.car && (() => {
+                      {getMemberClass(currentMember) === 'In' && currentMember?.statusIn?.car && (() => {
                         const carProd = products.find((p) => p.type === 'Car');
                         if (!carProd) return null;
                         return (
@@ -2122,7 +2117,7 @@ function LedgerContent() {
 
                         const dItem = currentBill?.items?.find((item) => item.productId === dProduct.id);
                         const quantity = dItem?.totalStock || 0;
-                        const memberClass = currentMember?.class ?? 'In';
+                        const memberClass = getMemberClass(currentMember);
                         const dPrice = memberClass === 'Out' ? dProduct.priceOut || 0 : memberClass === 'WalkIn' ? dProduct.priceWalkIn || 0 : dProduct.priceIn || 0;
 
                         return (
@@ -2379,7 +2374,7 @@ function LedgerContent() {
                   )}>
                     {mode === 'checkout' ? (
                       <>
-                        <div className="col-span-6">รายการ</div>
+                        <div className="col-span-6">ราย��าร</div>
                         <div className="col-span-2 text-right">จำนวน</div>
                         <div className="col-span-2 text-right">ราคา</div>
                         <div className="col-span-2 text-right">รวม</div>
@@ -2401,7 +2396,7 @@ function LedgerContent() {
                     {(() => {
                       let totalItemsPriceSum = 0;
                       let totalAddonsPriceSum = 0;
-                      const memberClass = currentMember?.class ?? 'In';
+                      const memberClass = getMemberClass(currentMember);
 
                       // ── Checkout ──────────────────────────────────────
                       if (mode === 'checkout') {
@@ -2653,6 +2648,3 @@ function LedgerContent() {
 export default function LedgerPage() {
   return <LedgerContent />;
 }
-
-
-

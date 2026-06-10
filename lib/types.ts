@@ -401,13 +401,22 @@ export type MemberStatusIn = {
 export type MemberStatusOut = 'active' | 'inactive';
 export type MemberStatusWorkIn = 'working' | 'off' | 'leave';
 
-// ประเภทสมาชิก: In = ส่งเข้า(บ้าน/รถ), Out = ส่งออก, WalkIn = ลูกค้าเดิน
+// ประเภทสมาชิก (canonical): In = ส่งเข้า(บ้าน/รถ), Out = ส่งออก, WalkIn = ลูกค้าเดิน
 export type MemberClass = 'In' | 'Out' | 'WalkIn';
+
+// ค่าที่ UI/ฟอร์มใช้ (lowercase) — เป็น "แหล่งข้อมูลจริง" ที่ผู้ใช้เลือก
+// 'workin' ใน UI = 'WalkIn' (ลูกค้าเดิน) ในการคำนวณราคา
+export type MemberClassInput = 'in' | 'out' | 'workin' | '';
 
 export interface Member {
   id: string;
   name: string;
-  class: MemberClass;  // ประเภทการขาย — กำหนดราคาที่ใช้คำนวณ
+  // ค่าที่ฟอร์มเลือก (แหล่งข้อมูลจริงสำหรับคำนวณราคา)
+  memberClass?: MemberClassInput;
+  // ฟิลด์เดิม (legacy) — เก็บไว้เพื่อความเข้ากันได้กับข้อมูลเก่า
+  class?: MemberClass;
+  phone?: string;
+  address?: string;
   statusIn: MemberStatusIn;
   statusOut: MemberStatusOut;
   statusWorkIn: MemberStatusWorkIn;
@@ -586,7 +595,10 @@ export function createDefaultMember(name: string = ''): Member {
   return {
     id: generateId(),
     name,
-    class: 'In',          // default = In
+    memberClass: 'in',    // ค่าที่ฟอร์มใช้ (default = In)
+    class: 'In',          // legacy (เผื่อโค้ดเก่าอ่าน)
+    phone: '',
+    address: '',
     statusIn: { house: false, car: false },
     statusOut: 'active',
     statusWorkIn: 'working',
@@ -665,10 +677,38 @@ export function createNewBill(memberId: string, memberName: string, products: Pr
   };
 }
 
-// Get price based on member class
-export function getProductPrice(product: Product, member: Member): number {
-  if (member.class === 'Out') return product.priceOut;
-  if (member.class === 'WalkIn') return product.priceWalkIn;
+// ===== MEMBER CLASS / PRICE HELPERS =====
+
+// แปลงค่า class ของสมาชิกให้เป็นค่ามาตรฐาน 'In' | 'Out' | 'WalkIn' เสมอ
+// รองรับทั้งค่าจากฟอร์ม (memberClass: 'in'|'out'|'workin') และฟิลด์เดิม (class)
+export function getMemberClass(member?: Member | null): MemberClass {
+  if (!member) return 'In';
+
+  // ให้ความสำคัญกับค่าที่ฟอร์มเลือกก่อน (แหล่งข้อมูลจริง)
+  switch (member.memberClass) {
+    case 'out':
+      return 'Out';
+    case 'workin':
+      return 'WalkIn';
+    case 'in':
+      return 'In';
+  }
+
+  // fallback ไปที่ฟิลด์เดิมถ้ามี (ข้อมูลเก่า)
+  if (member.class === 'Out' || member.class === 'WalkIn' || member.class === 'In') {
+    return member.class;
+  }
+
+  return 'In'; // default
+}
+
+// ดึงราคาของสินค้าตาม class ของสมาชิก (รับได้ทั้ง Member หรือ MemberClass)
+export function getProductPrice(product: Product, memberOrClass?: Member | MemberClass | null): number {
+  const memberClass =
+    typeof memberOrClass === 'string' ? memberOrClass : getMemberClass(memberOrClass);
+
+  if (memberClass === 'Out') return product.priceOut;
+  if (memberClass === 'WalkIn') return product.priceWalkIn;
   return product.priceIn; // 'In' (default)
 }
 
@@ -677,7 +717,7 @@ export function calculateBillTotals(
   allProducts: Product[],
   member?: Member
 ): { totalSales: number; amountOwed: number } {
-  const memberClass = member?.class ?? 'In';
+  const memberClass = getMemberClass(member);
 
   // 1. ประเภทสินค้าหลัก (ไม่รวม Car, House, D)
   const distinctTypes = Array.from(
@@ -700,25 +740,22 @@ export function calculateBillTotals(
     const actualSoldGroup = totalStockGroup - returnedInputGroup; // ติดลบได้หากคืนมากกว่าเบิก
 
     const baseProduct = typeProducts[0];
-    let price = 0;
-    if (memberClass === 'Out') price = baseProduct?.priceOut || 0;
-    else if (memberClass === 'WalkIn') price = baseProduct?.priceWalkIn || 0;
-    else price = baseProduct?.priceIn || 0;
+    const price = baseProduct ? getProductPrice(baseProduct, memberClass) : 0;
 
     // 🔴 แก้ไขจุดที่ 1: เปลี่ยนจาก Math.max(0, ...) เป็นการบวกค่าตามจริง (ยอมให้ติดลบได้)
     return grandTotal + (actualSoldGroup * price);
   }, 0);
 
-  // 3. บวก house/car plan
+  // 3. บวก house/car plan (เฉพาะสมาชิก class 'In')
   let planTotal = 0;
   if (memberClass === 'In' && member) {
     if (member.statusIn.house) {
       const houseProd = allProducts.find((p) => p.type === 'House');
-      planTotal += houseProd?.priceIn || 0;
+      planTotal += houseProd ? getProductPrice(houseProd, memberClass) : 0;
     }
     if (member.statusIn.car) {
       const carProd = allProducts.find((p) => p.type === 'Car');
-      planTotal += carProd?.priceIn || 0;
+      planTotal += carProd ? getProductPrice(carProd, memberClass) : 0;
     }
   }
 
@@ -726,12 +763,7 @@ export function calculateBillTotals(
   const dProduct = allProducts.find((p) => p.type === 'D');
   const dItem = bill.items?.find((item) => item.productId === dProduct?.id);
   const dQuantity = dItem?.totalStock || 0;
-  let dPrice = 0;
-  if (dProduct) {
-    if (memberClass === 'Out') dPrice = dProduct.priceOut;
-    else if (memberClass === 'WalkIn') dPrice = dProduct.priceWalkIn;
-    else dPrice = dProduct.priceIn;
-  }
+  const dPrice = dProduct ? getProductPrice(dProduct, memberClass) : 0;
   const iceDryPrice = dQuantity * dPrice;
 
   // ยอดขายวันนี้รวมทุกอย่าง = ไอศกรีม + แพ็กเกจ + น้ำแข็งถัง + น้ำแข็งแห้ง
