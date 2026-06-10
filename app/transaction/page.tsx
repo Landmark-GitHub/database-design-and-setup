@@ -2,7 +2,7 @@
 
 // import { useMemo, useState } from 'react';
 // import { useStore } from '@/lib/store';
-// import { PRODUCT_TYPE_LABELS } from '@/lib/types';
+// import { PRODUCT_TYPE_LABELS, getProductPrice } from '@/lib/types';
 // import Link from 'next/link';
 // import { Button } from '@/components/ui/button';
 // import { ChevronLeft, Calendar, Users, TrendingUp, Package, CreditCard, Edit3, Unlock } from 'lucide-react';
@@ -498,7 +498,7 @@
 
 import { useMemo, useState } from 'react';
 import { useStore } from '@/lib/store';
-import { PRODUCT_TYPE_LABELS } from '@/lib/types';
+import { PRODUCT_TYPE_LABELS, getProductPrice } from '@/lib/types';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, Calendar, Users, TrendingUp, Package, CreditCard, Edit3, Unlock, BarChart2 } from 'lucide-react';
@@ -644,10 +644,7 @@ export default function TransactionPage() {
           const soldGroup = Math.max(0, totalStockGroup - returnedGroup);
 
           const baseProduct = typeProducts[0];
-          let price = 0;
-          if (memberClass === 'Out') price = baseProduct?.priceOut || 0;
-          else if (memberClass === 'WalkIn') price = baseProduct?.priceWorkIn || 0;
-          else price = baseProduct?.priceIn || 0;
+          const price = baseProduct ? getProductPrice(baseProduct, memberClass) : 0;
 
           const netPrice = soldGroup * price;
 
@@ -694,10 +691,7 @@ export default function TransactionPage() {
           totalSold += sold;
 
           const baseProduct = typeProducts[0];
-          let price = 0;
-          if (memberClass === 'Out') price = baseProduct?.priceOut || 0;
-          else if (memberClass === 'WalkIn') price = baseProduct?.priceWorkIn || 0;
-          else price = baseProduct?.priceIn || 0;
+          const price = baseProduct ? getProductPrice(baseProduct, memberClass) : 0;
 
           totalNetPrice += sold * price;
         });

@@ -698,6 +698,20 @@ const getInitialCategories = (): ExpenseCategory[] => {
     { id: 'cat-3', name: 'อาหาร/สวัสดิการ', icon: '🍲', createdAt: now },
     { id: 'cat-4', name: 'ซื้อของเข้าร้าน', icon: '📦', createdAt: now },
     { id: 'cat-5', name: 'อื่น ๆ', icon: '⚙️', createdAt: now },
+    { id: 'cat-6', name: 'ค่ารถ', icon: '🚗', createdAt: now },
+    { id: 'cat-7', name: 'ค่าไฟ', icon: '⚡', createdAt: now },
+    { id: 'cat-8', name: 'ค่าน้ำ', icon: '💧', createdAt: now },
+    { id: 'cat-9', name: 'ค่ากิน', icon: '🍽️', createdAt: now },
+    { id: 'cat-10', name: 'ค่าข้าว', icon: '🍚', createdAt: now },
+    { id: 'cat-11', name: 'ค่าจิปาถะ', icon: '🛍️', createdAt: now },
+    { id: 'cat-12', name: 'Mark', icon: '👤', createdAt: now },
+    { id: 'cat-13', name: 'Jan', icon: '👤', createdAt: now },
+    { id: 'cat-14', name: 'Yen', icon: '👤', createdAt: now },
+    { id: 'cat-15', name: 'Father', icon: '👨', createdAt: now },
+    { id: 'cat-16', name: 'อะไหล่รถ', icon: '🔧', createdAt: now },
+    { id: 'cat-17', name: 'Faith', icon: '👤', createdAt: now },
+    { id: 'cat-18', name: 'Wifi', icon: '🌐', createdAt: now },
+    { id: 'cat-19', name: 'Net Mobile', icon: '📱', createdAt: now },
   ];
 };
 

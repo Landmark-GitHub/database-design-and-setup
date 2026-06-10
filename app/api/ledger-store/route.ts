@@ -9,7 +9,6 @@ const defaultData = {
   products: [],
   bills: [],
   dailySummaries: [],
-  historyLogs: [],
   settings: {
     retentionMonths: 3,
     reminderExport: true,

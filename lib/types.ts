@@ -108,11 +108,15 @@
 // // ===== HISTORY LOG (for deleted months) =====
 // export interface HistoryLog {
 //   id: string;
-//   month: string;        // YYYY-MM
-//   totalBills: number;
-//   totalSales: number;
-//   totalOwed: number;
-//   deletedAt: string;
+//   month?: string;       // YYYY-MM (สำหรับ log ลบข้อมูลเก่า)
+//   totalBills?: number;
+//   totalSales?: number;
+//   totalOwed?: number;
+//   deletedAt?: string;
+//   // สำหรับ log รายจ่าย/หมวดหมู่
+//   timestamp?: string;
+//   action?: string;
+//   details?: string;
 // }
 
 // // ===== APP STATE =====
@@ -388,7 +392,6 @@
 //   House: 'บ้าน',
 // };
 
-
 // ===== MEMBER TYPES =====
 export type MemberStatusIn = {
   house: boolean; // บ้าน
@@ -423,7 +426,7 @@ export interface Product {
   category: ProductCategory; // for grouping display
   priceIn: number;    // price 1: status in (บ้าน/รถ)
   priceOut: number;   // price 2: out
-  priceWorkIn: number; // price 3: workin
+  priceWalkIn: number; // price 3: walkin
   imageUrl?: string;
   sortOrder: number;
   createdAt: string;
@@ -532,37 +535,37 @@ export interface AppSettings {
 // ===== DEFAULT DATA =====
 export const DEFAULT_PRODUCTS: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>[] = [
   // XL Products (แท่งใหญ่)
-  { name: 'แผ่น', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWorkIn: 6, sortOrder: 1 , imageUrl: 'https://example.com/images/แผ่น.jpg' },
-  { name: 'ถั่วดำ', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWorkIn: 6, sortOrder: 2 , imageUrl: 'https://example.com/images/ถั่วดำ.jpg' },
-  { name: 'ถั่วแดง', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWorkIn: 6, sortOrder: 3 , imageUrl: 'https://example.com/images/ถั่วแดง.jpg' },
-  { name: 'ข้าวเหนียวดำ', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWorkIn: 6, sortOrder: 4 , imageUrl: 'https://example.com/images/ข้าวเหนียวดำ.jpg' },
-  { name: 'ลอดช่อง', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWorkIn: 6, sortOrder: 5 , imageUrl: 'https://example.com/images/ลอดช่อง.jpg' },
-  { name: 'ข้าวโพด', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWorkIn: 6, sortOrder: 6 , imageUrl: 'https://example.com/images/ข้าวโพด.jpg' },
-  { name: 'เผือก', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWorkIn: 6, sortOrder: 7, imageUrl: 'https://example.com/images/เผือก.jpg' },
-  { name: 'ชาเย็น', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWorkIn: 6, sortOrder: 8, imageUrl: 'https://example.com/images/ชาเย็น.jpg' },
-  { name: 'โอเลี้ยง', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWorkIn: 6, sortOrder: 9 , imageUrl: 'https://example.com/images/โอเลี้ยง.jpg' },
-  { name: 'ป๊อป', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWorkIn: 6, sortOrder: 10 , imageUrl: 'https://example.com/images/ป๊อป.jpg' },
-  { name: 'คาลิโป้', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWorkIn: 6, sortOrder: 11 , imageUrl: 'https://example.com/images/คาลิโป้.jpg' },
-  { name: 'ทุเรียน', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWorkIn: 6, sortOrder: 12 , imageUrl: 'https://example.com/images/ทุเรียน.jpg' },
-  { name: 'กะทิ', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWorkIn: 6, sortOrder: 13 , imageUrl: 'https://example.com/images/กะทิ.jpg' },
-  { name: 'ช็อคโกแลต', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWorkIn: 6, sortOrder: 14 , imageUrl: 'https://example.com/images/ช็อคโกแลต.jpg' },
-  { name: 'สตอเบอรี่', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWorkIn: 6, sortOrder: 15 , imageUrl: 'https://example.com/images/สตอเบอรี่.jpg' },
+  { name: 'แผ่น', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWalkIn: 140, sortOrder: 1 , imageUrl: 'https://example.com/images/แผ่น.jpg' },
+  { name: 'ถั่วดำ', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWalkIn: 140, sortOrder: 2 , imageUrl: 'https://example.com/images/ถั่วดำ.jpg' },
+  { name: 'ถั่วแดง', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWalkIn: 140, sortOrder: 3 , imageUrl: 'https://example.com/images/ถั่วแดง.jpg' },
+  { name: 'ข้าวเหนียวดำ', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWalkIn: 140, sortOrder: 4 , imageUrl: 'https://example.com/images/ข้าวเหนียวดำ.jpg' },
+  { name: 'ลอดช่อง', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWalkIn: 140, sortOrder: 5 , imageUrl: 'https://example.com/images/ลอดช่อง.jpg' },
+  { name: 'ข้าวโพด', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWalkIn: 140, sortOrder: 6 , imageUrl: 'https://example.com/images/ข้าวโพด.jpg' },
+  { name: 'เผือก', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWalkIn: 6, sortOrder: 7, imageUrl: 'https://example.com/images/เผือก.jpg' },
+  { name: 'ชาเย็น', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWalkIn: 6, sortOrder: 8, imageUrl: 'https://example.com/images/ชาเย็น.jpg' },
+  { name: 'โอเลี้ยง', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWalkIn: 6, sortOrder: 9 , imageUrl: 'https://example.com/images/โอเลี้ยง.jpg' },
+  { name: 'ป๊อป', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWalkIn: 6, sortOrder: 10 , imageUrl: 'https://example.com/images/ป๊อป.jpg' },
+  { name: 'คาลิโป้', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWalkIn: 6, sortOrder: 11 , imageUrl: 'https://example.com/images/คาลิโป้.jpg' },
+  { name: 'ทุเรียน', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWalkIn: 6, sortOrder: 12 , imageUrl: 'https://example.com/images/ทุเรียน.jpg' },
+  { name: 'กะทิ', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWalkIn: 6, sortOrder: 13 , imageUrl: 'https://example.com/images/กะทิ.jpg' },
+  { name: 'ช็อคโกแลต', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWalkIn: 6, sortOrder: 14 , imageUrl: 'https://example.com/images/ช็อคโกแลต.jpg' },
+  { name: 'สตอเบอรี่', type: 'XL', category: 'XL', priceIn: 6, priceOut: 6, priceWalkIn: 6, sortOrder: 15 , imageUrl: 'https://example.com/images/สตอเบอรี่.jpg' },
   // S Products (แท่งเล็ก)
-  { name: 'ส้ม', type: 'S', category: 'S', priceIn: 5, priceOut: 5, priceWorkIn: 5, sortOrder: 16 , imageUrl: 'https://example.com/images/ส้ม.jpg' },
-  { name: 'แดง', type: 'S', category: 'S', priceIn: 5, priceOut: 5, priceWorkIn: 5, sortOrder: 17, imageUrl: 'https://example.com/images/แดง.jpg' },
-  { name: 'โคล่า', type: 'S', category: 'S', priceIn: 5, priceOut: 5, priceWorkIn: 5, sortOrder: 18, imageUrl: 'https://example.com/images/โคล่า.jpg' },
-  { name: 'จรวด', type: 'S', category: 'S', priceIn: 5, priceOut: 5, priceWorkIn: 5, sortOrder: 19, imageUrl: 'https://example.com/images/จรวด.jpg' },
-  { name: 'สามสี', type: 'S', category: 'S', priceIn: 5, priceOut: 5, priceWorkIn: 5, sortOrder: 20, imageUrl: 'https://example.com/images/สามสี.jpg' },
-  { name: 'ตุ๊กตา', type: 'S', category: 'S', priceIn: 5, priceOut: 5, priceWorkIn: 5, sortOrder: 21, imageUrl: 'https://example.com/images/ตุ๊กตา.jpg' },
+  { name: 'ส้ม', type: 'S', category: 'S', priceIn: 5, priceOut: 5, priceWalkIn: 5, sortOrder: 16 , imageUrl: 'https://example.com/images/ส้ม.jpg' },
+  { name: 'แดง', type: 'S', category: 'S', priceIn: 5, priceOut: 5, priceWalkIn: 5, sortOrder: 17, imageUrl: 'https://example.com/images/แดง.jpg' },
+  { name: 'โคล่า', type: 'S', category: 'S', priceIn: 5, priceOut: 5, priceWalkIn: 5, sortOrder: 18, imageUrl: 'https://example.com/images/โคล่า.jpg' },
+  { name: 'จรวด', type: 'S', category: 'S', priceIn: 5, priceOut: 5, priceWalkIn: 5, sortOrder: 19, imageUrl: 'https://example.com/images/จรวด.jpg' },
+  { name: 'สามสี', type: 'S', category: 'S', priceIn: 5, priceOut: 5, priceWalkIn: 5, sortOrder: 20, imageUrl: 'https://example.com/images/สามสี.jpg' },
+  { name: 'ตุ๊กตา', type: 'S', category: 'S', priceIn: 5, priceOut: 5, priceWalkIn: 5, sortOrder: 21, imageUrl: 'https://example.com/images/ตุ๊กตา.jpg' },
   // Other Products (อื่นๆ)
-  { name: 'กาแฟ', type: 'Coffee', category: 'Coffee', priceIn: 7.5, priceOut: 8, priceWorkIn: 7.5, sortOrder: 22 , imageUrl: 'https://example.com/images/กาแฟ.jpg' },
-  { name: 'แซนวิช', type: 'Sandwich', category: 'Sandwich', priceIn: 7.5, priceOut: 8, priceWorkIn: 7.5, sortOrder: 23 , imageUrl: 'https://example.com/images/แซนวิช.jpg' },
-  { name: 'ถ้วย', type: 'Cup', category: 'Cup', priceIn: 6, priceOut: 7, priceWorkIn: 6, sortOrder: 24 , imageUrl: 'https://example.com/images/ถ้วย.jpg' },
-  { name: 'โคน', type: 'Cone', category: 'Cone', priceIn: 10, priceOut: 10, priceWorkIn: 10, sortOrder: 25 , imageUrl: 'https://example.com/images/โคน.jpg' },
-  { name: 'น้ำแข็งแห้ง', type: 'D', category: 'null', priceIn: 25, priceOut: 25, priceWorkIn: 25, sortOrder: 26 , imageUrl: 'https://example.com/images/น้ำแข็งแห้ง.jpg' },
+  { name: 'กาแฟ', type: 'Coffee', category: 'Coffee', priceIn: 7.5, priceOut: 8, priceWalkIn: 7.5, sortOrder: 22 , imageUrl: 'https://example.com/images/กาแฟ.jpg' },
+  { name: 'แซนวิช', type: 'Sandwich', category: 'Sandwich', priceIn: 7.5, priceOut: 8, priceWalkIn: 7.5, sortOrder: 23 , imageUrl: 'https://example.com/images/แซนวิช.jpg' },
+  { name: 'ถ้วย', type: 'Cup', category: 'Cup', priceIn: 6, priceOut: 7, priceWalkIn: 6, sortOrder: 24 , imageUrl: 'https://example.com/images/ถ้วย.jpg' },
+  { name: 'โคน', type: 'Cone', category: 'Cone', priceIn: 10, priceOut: 10, priceWalkIn: 10, sortOrder: 25 , imageUrl: 'https://example.com/images/โคน.jpg' },
+  { name: 'น้ำแข็งแห้ง', type: 'D', category: 'null', priceIn: 25, priceOut: 25, priceWalkIn: 25, sortOrder: 26 , imageUrl: 'https://example.com/images/น้ำแข็งแห้ง.jpg' },
   // New: รถ and บ้าน
-  { name: 'รถ', type: 'Car', category: 'null', priceIn: 5, priceOut: 5, priceWorkIn: 5, sortOrder: 27 , imageUrl: 'https://example.com/images/รถ.jpg' },
-  { name: 'บ้าน', type: 'House', category: 'null', priceIn: 20, priceOut: 20, priceWorkIn: 20, sortOrder: 28 , imageUrl: 'https://example.com/images/บ้าน.jpg' },
+  { name: 'รถ', type: 'Car', category: 'null', priceIn: 5, priceOut: 5, priceWalkIn: 5, sortOrder: 27 , imageUrl: 'https://example.com/images/รถ.jpg' },
+  { name: 'บ้าน', type: 'House', category: 'null', priceIn: 20, priceOut: 20, priceWalkIn: 20, sortOrder: 28 , imageUrl: 'https://example.com/images/บ้าน.jpg' },
 ];
 
 // Helper functions
@@ -601,7 +604,7 @@ export function createDefaultProduct(data: Partial<Product>): Product {
     category: data.category || 'XL',
     priceIn: data.priceIn || 0,
     priceOut: data.priceOut || 0,
-    priceWorkIn: data.priceWorkIn || 0,
+    priceWalkIn: data.priceWalkIn || 0,
     imageUrl: data.imageUrl,
     sortOrder: data.sortOrder || 0,
     createdAt: now,
@@ -609,7 +612,7 @@ export function createDefaultProduct(data: Partial<Product>): Product {
   };
 }
 
-export function createNewBill(memberId: string, memberName: string, products: Product[], previousBill?: Bill, date?: string): Bill {
+export function createNewBill(memberId: string, memberName: string, products: Product[], previousBill?: Bill, date?: string, member?: Member): Bill {
   const now = new Date().toISOString();
   const billDate = date || getToday();
   
@@ -636,7 +639,7 @@ export function createNewBill(memberId: string, memberName: string, products: Pr
       totalStock: oldStock,
       returned: 0,
       sold: 0,
-      priceUsed: product.priceIn,
+      priceUsed: member ? getProductPrice(product, member) : product.priceIn,
     };
   });
   
@@ -665,7 +668,7 @@ export function createNewBill(memberId: string, memberName: string, products: Pr
 // Get price based on member class
 export function getProductPrice(product: Product, member: Member): number {
   if (member.class === 'Out') return product.priceOut;
-  if (member.class === 'WalkIn') return product.priceWorkIn;
+  if (member.class === 'WalkIn') return product.priceWalkIn;
   return product.priceIn; // 'In' (default)
 }
 
@@ -699,7 +702,7 @@ export function calculateBillTotals(
     const baseProduct = typeProducts[0];
     let price = 0;
     if (memberClass === 'Out') price = baseProduct?.priceOut || 0;
-    else if (memberClass === 'WalkIn') price = baseProduct?.priceWorkIn || 0;
+    else if (memberClass === 'WalkIn') price = baseProduct?.priceWalkIn || 0;
     else price = baseProduct?.priceIn || 0;
 
     // 🔴 แก้ไขจุดที่ 1: เปลี่ยนจาก Math.max(0, ...) เป็นการบวกค่าตามจริง (ยอมให้ติดลบได้)
@@ -719,11 +722,17 @@ export function calculateBillTotals(
     }
   }
 
-  // 4. คำนวณค่าน้ำแข็งแห้ง (Type D)
+  // 4. คำนวณค่าน้ำแข็งแห้ง (Type D) — ราคาตาม member class
   const dProduct = allProducts.find((p) => p.type === 'D');
   const dItem = bill.items?.find((item) => item.productId === dProduct?.id);
   const dQuantity = dItem?.totalStock || 0;
-  const iceDryPrice = dProduct ? dQuantity * dProduct.priceIn : 0;
+  let dPrice = 0;
+  if (dProduct) {
+    if (memberClass === 'Out') dPrice = dProduct.priceOut;
+    else if (memberClass === 'WalkIn') dPrice = dProduct.priceWalkIn;
+    else dPrice = dProduct.priceIn;
+  }
+  const iceDryPrice = dQuantity * dPrice;
 
   // ยอดขายวันนี้รวมทุกอย่าง = ไอศกรีม + แพ็กเกจ + น้ำแข็งถัง + น้ำแข็งแห้ง
   // (จุดนี้ totalSales สามารถติดลบได้ถูกต้องตามจริงแล้ว เช่น วันนี้ได้ของคืนรวมมูลค่า -50 บาท)

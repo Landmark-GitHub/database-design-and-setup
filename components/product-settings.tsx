@@ -46,7 +46,7 @@ interface ProductFormData {
   type: ProductType;
   priceIn: number;
   priceOut: number;
-  priceWorkIn: number;
+  priceWalkIn: number;
 }
 
 const defaultFormData: ProductFormData = {
@@ -54,11 +54,11 @@ const defaultFormData: ProductFormData = {
   type: 'XL',
   priceIn: 0,
   priceOut: 0,
-  priceWorkIn: 0,
+  priceWalkIn: 0,
 };
 
 export function ProductSettings() {
-  const { products, addProduct, updateProduct, deleteProduct } = useStore();
+  const {products, addProduct, updateProduct, deleteProduct } = useStore();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<Product | null>(null);
@@ -86,7 +86,7 @@ export function ProductSettings() {
       type: product.type,
       priceIn: product.priceIn,
       priceOut: product.priceOut,
-      priceWorkIn: product.priceWorkIn,
+      priceWalkIn: product.priceWalkIn,
     });
     setIsDialogOpen(true);
   };
@@ -156,7 +156,7 @@ export function ProductSettings() {
                                 Out: {product.priceOut}
                               </span>
                               <span className="bg-green-50 text-green-700 px-2 py-0.5 rounded">
-                                Work: {product.priceWorkIn}
+                                WalkIn: {product.priceWalkIn}
                               </span>
                             </div>
                           </div>
@@ -252,17 +252,17 @@ export function ProductSettings() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="priceWorkIn" className="text-xs">
-                  Price WorkIn
+                <Label htmlFor="priceWalkIn" className="text-xs">
+                  Price WalkIn
                 </Label>
                 <Input
-                  id="priceWorkIn"
+                  id="priceWalkIn"
                   type="number"
                   step="0.5"
                   min="0"
-                  value={formData.priceWorkIn}
+                  value={formData.priceWalkIn}
                   onChange={(e) =>
-                    setFormData({ ...formData, priceWorkIn: parseFloat(e.target.value) || 0 })
+                    setFormData({ ...formData, priceWalkIn: parseFloat(e.target.value) || 0 })
                   }
                 />
               </div>

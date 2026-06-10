@@ -417,7 +417,7 @@ export default function DataManagementPage() {
                         })}
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        {log.totalBills} บิล | ยอดขาย {log.totalSales.toLocaleString()} บาท
+                        {log.totalBills} บิล | ยอดขาย {(log.totalSales ?? 0).toLocaleString()} บาท
                       </p>
                     </div>
                     <p className="text-xs text-muted-foreground">
