@@ -91,10 +91,10 @@
       "statusOut": "active",
       "statusWorkIn": "working",
       "createdAt": "2026-05-25T16:08:54.704Z",
-      "updatedAt": "2026-06-09T11:36:47.608Z",
+      "updatedAt": "2026-06-10T10:51:03.525Z",
       "phone": "",
       "address": "",
-      "memberClass": "workin"
+      "memberClass": "in"
     },
     {
       "id": "1779760052487-vl1yixlp7",
@@ -107,10 +107,10 @@
       "statusOut": "active",
       "statusWorkIn": "working",
       "createdAt": "2026-05-26T01:47:32.487Z",
-      "updatedAt": "2026-05-26T01:48:04.590Z",
+      "updatedAt": "2026-06-10T10:57:06.192Z",
       "phone": "",
       "address": "",
-      "memberClass": "out"
+      "memberClass": "in"
     },
     {
       "id": "1779760062090-xkjfflx4r",
@@ -123,10 +123,10 @@
       "statusOut": "active",
       "statusWorkIn": "working",
       "createdAt": "2026-05-26T01:47:42.090Z",
-      "updatedAt": "2026-05-26T01:48:01.256Z",
+      "updatedAt": "2026-06-10T10:57:03.579Z",
       "phone": "",
       "address": "",
-      "memberClass": "out"
+      "memberClass": "in"
     },
     {
       "id": "1779760075464-u604wd0f1",
@@ -139,10 +139,10 @@
       "statusOut": "active",
       "statusWorkIn": "working",
       "createdAt": "2026-05-26T01:47:55.464Z",
-      "updatedAt": "2026-05-26T01:47:55.466Z",
+      "updatedAt": "2026-06-10T10:57:00.667Z",
       "phone": "",
       "address": "",
-      "memberClass": "out"
+      "memberClass": "in"
     },
     {
       "id": "1779943768948-4elokilg8",
@@ -184,10 +184,26 @@
       "statusOut": "active",
       "statusWorkIn": "working",
       "createdAt": "2026-06-09T11:58:39.831Z",
-      "updatedAt": "2026-06-09T11:58:39.847Z",
+      "updatedAt": "2026-06-10T10:52:38.949Z",
       "phone": "",
       "address": "",
-      "memberClass": "workin"
+      "memberClass": "out"
+    },
+    {
+      "id": "1781089038096-ofgfne22b",
+      "name": "Test3",
+      "memberClass": "workin",
+      "class": "In",
+      "phone": "",
+      "address": "",
+      "statusIn": {
+        "house": false,
+        "car": false
+      },
+      "statusOut": "active",
+      "statusWorkIn": "working",
+      "createdAt": "2026-06-10T10:57:18.096Z",
+      "updatedAt": "2026-06-10T10:57:18.107Z"
     }
   ],
   "products": [
@@ -201,8 +217,8 @@
       "sortOrder": 1,
       "id": "product-1",
       "createdAt": "2026-05-25T13:09:12.661Z",
-      "updatedAt": "2026-06-09T11:35:53.646Z",
-      "priceWalkIn": 140
+      "updatedAt": "2026-06-10T11:05:04.786Z",
+      "priceWalkIn": 120
     },
     {
       "name": "ถั่วดำ",
@@ -214,8 +230,8 @@
       "sortOrder": 2,
       "id": "product-2",
       "createdAt": "2026-05-25T13:09:12.661Z",
-      "updatedAt": "2026-06-10T06:19:56.650Z",
-      "priceWalkIn": 6
+      "updatedAt": "2026-06-10T11:05:04.795Z",
+      "priceWalkIn": 120
     },
     {
       "name": "ถั่วแดง",
@@ -227,8 +243,8 @@
       "sortOrder": 3,
       "id": "product-3",
       "createdAt": "2026-05-25T13:09:12.661Z",
-      "updatedAt": "2026-06-10T06:20:00.904Z",
-      "priceWalkIn": 6
+      "updatedAt": "2026-06-10T11:05:04.804Z",
+      "priceWalkIn": 120
     },
     {
       "name": "ข้าวเหนียวดำ",
@@ -240,8 +256,8 @@
       "sortOrder": 4,
       "id": "product-4",
       "createdAt": "2026-05-25T13:09:12.661Z",
-      "updatedAt": "2026-06-10T06:20:05.144Z",
-      "priceWalkIn": 6
+      "updatedAt": "2026-06-10T11:05:04.812Z",
+      "priceWalkIn": 120
     },
     {
       "name": "ลอดช่อง",
@@ -253,8 +269,8 @@
       "sortOrder": 5,
       "id": "product-5",
       "createdAt": "2026-05-25T13:09:12.661Z",
-      "updatedAt": "2026-06-10T06:20:09.511Z",
-      "priceWalkIn": 6
+      "updatedAt": "2026-06-10T11:05:00.530Z",
+      "priceWalkIn": 120
     },
     {
       "name": "ข้าวโพด",
@@ -266,8 +282,8 @@
       "sortOrder": 6,
       "id": "product-6",
       "createdAt": "2026-05-25T13:09:12.661Z",
-      "updatedAt": "2026-06-10T06:20:13.786Z",
-      "priceWalkIn": 6
+      "updatedAt": "2026-06-10T11:05:00.538Z",
+      "priceWalkIn": 120
     },
     {
       "name": "เผือก",
@@ -279,99 +295,99 @@
       "sortOrder": 7,
       "id": "product-7",
       "createdAt": "2026-05-25T13:09:12.661Z",
-      "updatedAt": "2026-06-10T06:20:19.569Z",
-      "priceWalkIn": 6
+      "updatedAt": "2026-06-10T11:05:00.547Z",
+      "priceWalkIn": 120
     },
     {
       "name": "ชาเย็น",
       "type": "XL",
       "category": "XL",
       "priceIn": 6,
-      "priceOut": 6,
+      "priceOut": 7,
       "priceWorkIn": 6,
       "sortOrder": 8,
       "id": "product-8",
       "createdAt": "2026-05-25T13:09:12.661Z",
-      "updatedAt": "2026-05-25T13:09:12.661Z",
-      "priceWalkIn": 6
+      "updatedAt": "2026-06-10T11:05:00.556Z",
+      "priceWalkIn": 120
     },
     {
       "name": "โอเลี้ยง",
       "type": "XL",
       "category": "XL",
       "priceIn": 6,
-      "priceOut": 6,
+      "priceOut": 7,
       "priceWorkIn": 6,
       "sortOrder": 9,
       "id": "product-9",
       "createdAt": "2026-05-25T13:09:12.661Z",
-      "updatedAt": "2026-05-25T13:09:12.661Z",
-      "priceWalkIn": 6
+      "updatedAt": "2026-06-10T11:05:00.564Z",
+      "priceWalkIn": 120
     },
     {
       "name": "ป๊อป",
       "type": "XL",
       "category": "XL",
       "priceIn": 6,
-      "priceOut": 6,
+      "priceOut": 7,
       "priceWorkIn": 6,
       "sortOrder": 10,
       "id": "product-10",
       "createdAt": "2026-05-25T13:09:12.661Z",
-      "updatedAt": "2026-05-25T13:09:12.661Z",
-      "priceWalkIn": 6
+      "updatedAt": "2026-06-10T11:05:00.578Z",
+      "priceWalkIn": 120
     },
     {
       "name": "คาลิโป้",
       "type": "XL",
       "category": "XL",
       "priceIn": 6,
-      "priceOut": 6,
+      "priceOut": 7,
       "priceWorkIn": 6,
       "sortOrder": 11,
       "id": "product-11",
       "createdAt": "2026-05-25T13:09:12.661Z",
-      "updatedAt": "2026-05-25T13:09:12.661Z",
-      "priceWalkIn": 6
+      "updatedAt": "2026-06-10T11:05:00.586Z",
+      "priceWalkIn": 120
     },
     {
       "name": "ทุเรียน",
       "type": "XL",
       "category": "XL",
       "priceIn": 6,
-      "priceOut": 6,
+      "priceOut": 7,
       "priceWorkIn": 6,
       "sortOrder": 12,
       "id": "product-12",
       "createdAt": "2026-05-25T13:09:12.661Z",
-      "updatedAt": "2026-05-25T13:09:12.661Z",
-      "priceWalkIn": 6
+      "updatedAt": "2026-06-10T11:05:00.594Z",
+      "priceWalkIn": 120
     },
     {
       "name": "กะทิ",
       "type": "XL",
       "category": "XL",
       "priceIn": 6,
-      "priceOut": 6,
+      "priceOut": 7,
       "priceWorkIn": 6,
       "sortOrder": 13,
       "id": "product-13",
       "createdAt": "2026-05-25T13:09:12.661Z",
-      "updatedAt": "2026-05-25T13:09:12.661Z",
-      "priceWalkIn": 6
+      "updatedAt": "2026-06-10T11:05:00.603Z",
+      "priceWalkIn": 120
     },
     {
       "name": "ช็อคโกแลต",
       "type": "XL",
       "category": "XL",
       "priceIn": 6,
-      "priceOut": 6,
+      "priceOut": 7,
       "priceWorkIn": 6,
       "sortOrder": 14,
       "id": "product-14",
       "createdAt": "2026-05-25T13:09:12.661Z",
-      "updatedAt": "2026-05-25T13:09:12.661Z",
-      "priceWalkIn": 6
+      "updatedAt": "2026-06-10T11:05:00.611Z",
+      "priceWalkIn": 120
     },
     {
       "name": "สตอเบอรี่",
@@ -383,20 +399,20 @@
       "sortOrder": 15,
       "id": "product-15",
       "createdAt": "2026-05-25T13:09:12.661Z",
-      "updatedAt": "2026-06-10T06:20:29.153Z",
-      "priceWalkIn": 6
+      "updatedAt": "2026-06-10T11:05:00.620Z",
+      "priceWalkIn": 120
     },
     {
       "name": "ส้ม",
       "type": "S",
       "category": "S",
       "priceIn": 5,
-      "priceOut": 5,
+      "priceOut": 6,
       "priceWorkIn": 5,
       "sortOrder": 16,
       "id": "product-16",
       "createdAt": "2026-05-25T13:09:12.661Z",
-      "updatedAt": "2026-06-09T11:36:08.152Z",
+      "updatedAt": "2026-06-10T11:02:11.231Z",
       "priceWalkIn": 100
     },
     {
@@ -404,65 +420,65 @@
       "type": "S",
       "category": "S",
       "priceIn": 5,
-      "priceOut": 5,
+      "priceOut": 6,
       "priceWorkIn": 5,
       "sortOrder": 17,
       "id": "product-17",
       "createdAt": "2026-05-25T13:09:12.661Z",
-      "updatedAt": "2026-05-25T13:09:12.661Z",
-      "priceWalkIn": 5
+      "updatedAt": "2026-06-10T11:02:11.241Z",
+      "priceWalkIn": 100
     },
     {
       "name": "โคล่า",
       "type": "S",
       "category": "S",
       "priceIn": 5,
-      "priceOut": 5,
+      "priceOut": 6,
       "priceWorkIn": 5,
       "sortOrder": 18,
       "id": "product-18",
       "createdAt": "2026-05-25T13:09:12.661Z",
-      "updatedAt": "2026-05-25T13:09:12.661Z",
-      "priceWalkIn": 5
+      "updatedAt": "2026-06-10T11:02:11.250Z",
+      "priceWalkIn": 100
     },
     {
       "name": "จรวด",
       "type": "S",
       "category": "S",
       "priceIn": 5,
-      "priceOut": 5,
+      "priceOut": 6,
       "priceWorkIn": 5,
       "sortOrder": 19,
       "id": "product-19",
       "createdAt": "2026-05-25T13:09:12.661Z",
-      "updatedAt": "2026-05-25T13:09:12.661Z",
-      "priceWalkIn": 5
+      "updatedAt": "2026-06-10T11:02:11.256Z",
+      "priceWalkIn": 100
     },
     {
       "name": "สามสี",
       "type": "S",
       "category": "S",
       "priceIn": 5,
-      "priceOut": 5,
+      "priceOut": 6,
       "priceWorkIn": 5,
       "sortOrder": 20,
       "id": "product-20",
       "createdAt": "2026-05-25T13:09:12.661Z",
-      "updatedAt": "2026-05-25T13:09:12.661Z",
-      "priceWalkIn": 5
+      "updatedAt": "2026-06-10T11:02:11.263Z",
+      "priceWalkIn": 100
     },
     {
       "name": "ตุ๊กตา",
       "type": "S",
       "category": "S",
       "priceIn": 5,
-      "priceOut": 5,
+      "priceOut": 6,
       "priceWorkIn": 5,
       "sortOrder": 21,
       "id": "product-21",
       "createdAt": "2026-05-25T13:09:12.661Z",
-      "updatedAt": "2026-05-25T13:09:12.661Z",
-      "priceWalkIn": 5
+      "updatedAt": "2026-06-10T11:02:11.268Z",
+      "priceWalkIn": 100
     },
     {
       "name": "กาแฟ",
@@ -478,17 +494,17 @@
       "priceWalkIn": 7.5
     },
     {
-      "name": "แซนวิช",
+      "name": "แซนวิช ",
       "type": "Sandwich",
       "category": "Sandwich",
       "priceIn": 7.5,
-      "priceOut": 8,
+      "priceOut": 9,
       "priceWorkIn": 7.5,
       "sortOrder": 23,
       "id": "product-23",
       "createdAt": "2026-05-25T13:09:12.661Z",
-      "updatedAt": "2026-05-25T13:09:12.661Z",
-      "priceWalkIn": 7.5
+      "updatedAt": "2026-06-10T11:02:23.908Z",
+      "priceWalkIn": 96
     },
     {
       "name": "ถ้วย",
@@ -500,8 +516,8 @@
       "sortOrder": 24,
       "id": "product-24",
       "createdAt": "2026-05-25T13:09:12.661Z",
-      "updatedAt": "2026-05-25T13:09:12.661Z",
-      "priceWalkIn": 6
+      "updatedAt": "2026-06-10T11:02:32.678Z",
+      "priceWalkIn": 140
     },
     {
       "name": "โคน",
@@ -513,8 +529,8 @@
       "sortOrder": 25,
       "id": "product-25",
       "createdAt": "2026-05-25T13:09:12.661Z",
-      "updatedAt": "2026-05-25T13:09:12.661Z",
-      "priceWalkIn": 10
+      "updatedAt": "2026-06-10T10:56:40.675Z",
+      "priceWalkIn": 100
     },
     {
       "name": "น้ำแข็งแห้ง",
@@ -526,8 +542,8 @@
       "sortOrder": 26,
       "id": "product-26",
       "createdAt": "2026-05-25T13:09:12.661Z",
-      "updatedAt": "2026-05-25T13:09:12.661Z",
-      "priceWalkIn": 25
+      "updatedAt": "2026-06-10T10:56:47.078Z",
+      "priceWalkIn": 30
     },
     {
       "name": "รถ",
@@ -37158,8 +37174,917 @@
           "productId": "product-1",
           "productName": "แผ่น",
           "oldStock": 127,
+          "newStock": 35,
+          "totalStock": 162,
+          "returned": 0,
+          "sold": 162,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-2",
+          "productName": "ถั่วดำ",
+          "oldStock": 0,
+          "newStock": 40,
+          "totalStock": 40,
+          "returned": 0,
+          "sold": 40,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-3",
+          "productName": "ถั่วแดง",
+          "oldStock": 0,
+          "newStock": 60,
+          "totalStock": 60,
+          "returned": 0,
+          "sold": 60,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-4",
+          "productName": "ข้าวเหนียวดำ",
+          "oldStock": 0,
+          "newStock": 6,
+          "totalStock": 6,
+          "returned": 0,
+          "sold": 6,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-5",
+          "productName": "ลอดช่อง",
+          "oldStock": 0,
           "newStock": 0,
-          "totalStock": 127,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-6",
+          "productName": "ข้าวโพด",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-7",
+          "productName": "เผือก",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-8",
+          "productName": "ชาเย็น",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-9",
+          "productName": "โอเลี้ยง",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-10",
+          "productName": "ป๊อป",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-11",
+          "productName": "คาลิโป้",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-12",
+          "productName": "ทุเรียน",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-13",
+          "productName": "กะทิ",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-14",
+          "productName": "ช็อคโกแลต",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-15",
+          "productName": "สตอเบอรี่",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-16",
+          "productName": "ส้ม",
+          "oldStock": 23,
+          "newStock": 15,
+          "totalStock": 38,
+          "returned": 0,
+          "sold": 38,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-17",
+          "productName": "แดง",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-18",
+          "productName": "โคล่า",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-19",
+          "productName": "จรวด",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-20",
+          "productName": "สามสี",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-21",
+          "productName": "ตุ๊กตา",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-22",
+          "productName": "กาแฟ",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 7.5
+        },
+        {
+          "productId": "product-23",
+          "productName": "แซนวิช",
+          "oldStock": 4,
+          "newStock": 8,
+          "totalStock": 12,
+          "returned": 0,
+          "sold": 12,
+          "priceUsed": 7.5
+        },
+        {
+          "productId": "product-24",
+          "productName": "ถ้วย",
+          "oldStock": 3,
+          "newStock": 12,
+          "totalStock": 15,
+          "returned": 0,
+          "sold": 15,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-25",
+          "productName": "โคน",
+          "oldStock": 16,
+          "newStock": 10,
+          "totalStock": 26,
+          "returned": 0,
+          "sold": 26,
+          "priceUsed": 10
+        },
+        {
+          "productId": "product-26",
+          "productName": "น้ำแข็งแห้ง",
+          "oldStock": 0,
+          "newStock": 6,
+          "totalStock": 6,
+          "returned": 0,
+          "sold": 6,
+          "priceUsed": 25
+        },
+        {
+          "productId": "product-27",
+          "productName": "รถ",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-28",
+          "productName": "บ้าน",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 20
+        }
+      ],
+      "ice": "",
+      "icePrice": 150,
+      "totalSales": 1260.5,
+      "amountPaid": 1261,
+      "amountOwed": 0,
+      "previousOwed": 0,
+      "notes": "",
+      "status": "completed",
+      "dayClosed": false,
+      "returnInputs": {
+        "XL": 152,
+        "S": 5,
+        "Cone": 11,
+        "Sandwich": 7,
+        "Cup": 8
+      },
+      "createdAt": "2026-06-10T06:35:04.914Z",
+      "updatedAt": "2026-06-10T10:17:01.566Z"
+    },
+    {
+      "id": "1781073376827-a03ozwjqb",
+      "memberId": "1781006319831-aj4xzagtg",
+      "memberName": "test2",
+      "buyerName": "",
+      "date": "2026-06-10",
+      "items": [
+        {
+          "productId": "product-1",
+          "productName": "แผ่น",
+          "oldStock": 0,
+          "newStock": 1,
+          "totalStock": 1,
+          "returned": 0,
+          "sold": 1,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-2",
+          "productName": "ถั่วดำ",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-3",
+          "productName": "ถั่วแดง",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-4",
+          "productName": "ข้าวเหนียวดำ",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-5",
+          "productName": "ลอดช่อง",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-6",
+          "productName": "ข้าวโพด",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-7",
+          "productName": "เผือก",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-8",
+          "productName": "ชาเย็น",
+          "oldStock": 0,
+          "newStock": 1,
+          "totalStock": 1,
+          "returned": 0,
+          "sold": 1,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-9",
+          "productName": "โอเลี้ยง",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-10",
+          "productName": "ป๊อป",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-11",
+          "productName": "คาลิโป้",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-12",
+          "productName": "ทุเรียน",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-13",
+          "productName": "กะทิ",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-14",
+          "productName": "ช็อคโกแลต",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-15",
+          "productName": "สตอเบอรี่",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-16",
+          "productName": "ส้ม",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-17",
+          "productName": "แดง",
+          "oldStock": 0,
+          "newStock": 1,
+          "totalStock": 1,
+          "returned": 0,
+          "sold": 1,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-18",
+          "productName": "โคล่า",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-19",
+          "productName": "จรวด",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-20",
+          "productName": "สามสี",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-21",
+          "productName": "ตุ๊กตา",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-22",
+          "productName": "กาแฟ",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 7.5
+        },
+        {
+          "productId": "product-23",
+          "productName": "แซนวิช",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 7.5
+        },
+        {
+          "productId": "product-24",
+          "productName": "ถ้วย",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-25",
+          "productName": "โคน",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 10
+        },
+        {
+          "productId": "product-26",
+          "productName": "น้ำแข็งแห้ง",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 25
+        },
+        {
+          "productId": "product-27",
+          "productName": "รถ",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-28",
+          "productName": "บ้าน",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 20
+        }
+      ],
+      "ice": "",
+      "icePrice": 0,
+      "totalSales": 380,
+      "amountPaid": 380,
+      "amountOwed": 0,
+      "previousOwed": 0,
+      "notes": "",
+      "status": "completed",
+      "dayClosed": false,
+      "returnInputs": {},
+      "createdAt": "2026-06-10T06:36:16.827Z",
+      "updatedAt": "2026-06-10T09:57:50.085Z"
+    },
+    {
+      "id": "1781087991410-jdsbw9zo3",
+      "memberId": "1779725334705-wij5nh25q",
+      "memberName": "Test",
+      "buyerName": "",
+      "date": "2026-06-11",
+      "items": [
+        {
+          "productId": "product-1",
+          "productName": "แผ่น",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-2",
+          "productName": "ถั่วดำ",
+          "oldStock": 0,
+          "newStock": 10,
+          "totalStock": 10,
+          "returned": 0,
+          "sold": 10,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-3",
+          "productName": "ถั่วแดง",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-4",
+          "productName": "ข้าวเหนียวดำ",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-5",
+          "productName": "ลอดช่อง",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-6",
+          "productName": "ข้าวโพด",
+          "oldStock": 0,
+          "newStock": 10,
+          "totalStock": 10,
+          "returned": 0,
+          "sold": 10,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-7",
+          "productName": "เผือก",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-8",
+          "productName": "ชาเย็น",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-9",
+          "productName": "โอเลี้ยง",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-10",
+          "productName": "ป๊อป",
+          "oldStock": 0,
+          "newStock": 15,
+          "totalStock": 15,
+          "returned": 0,
+          "sold": 15,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-11",
+          "productName": "คาลิโป้",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-12",
+          "productName": "ทุเรียน",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-13",
+          "productName": "กะทิ",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-14",
+          "productName": "ช็อคโกแลต",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-15",
+          "productName": "สตอเบอรี่",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-16",
+          "productName": "ส้ม",
+          "oldStock": 0,
+          "newStock": 10,
+          "totalStock": 10,
+          "returned": 0,
+          "sold": 10,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-17",
+          "productName": "แดง",
+          "oldStock": 0,
+          "newStock": 10,
+          "totalStock": 10,
+          "returned": 0,
+          "sold": 10,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-18",
+          "productName": "โคล่า",
+          "oldStock": 0,
+          "newStock": 15,
+          "totalStock": 15,
+          "returned": 0,
+          "sold": 15,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-19",
+          "productName": "จรวด",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-20",
+          "productName": "สามสี",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-21",
+          "productName": "ตุ๊กตา",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-22",
+          "productName": "กาแฟ",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 7.5
+        },
+        {
+          "productId": "product-23",
+          "productName": "แซนวิช",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 7.5
+        },
+        {
+          "productId": "product-24",
+          "productName": "ถ้วย",
+          "oldStock": 0,
+          "newStock": 20,
+          "totalStock": 20,
+          "returned": 0,
+          "sold": 20,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-25",
+          "productName": "โคน",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 10
+        },
+        {
+          "productId": "product-26",
+          "productName": "น้ำแข็งแห้ง",
+          "oldStock": 0,
+          "newStock": 4,
+          "totalStock": 4,
+          "returned": 0,
+          "sold": 4,
+          "priceUsed": 25
+        },
+        {
+          "productId": "product-27",
+          "productName": "รถ",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-28",
+          "productName": "บ้าน",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 20
+        }
+      ],
+      "ice": "",
+      "icePrice": 0,
+      "totalSales": 8620,
+      "amountPaid": 0,
+      "amountOwed": 8620,
+      "previousOwed": 0,
+      "notes": "",
+      "status": "checkout",
+      "dayClosed": false,
+      "returnInputs": {},
+      "createdAt": "2026-06-10T10:39:51.410Z",
+      "updatedAt": "2026-06-10T10:41:10.860Z"
+    },
+    {
+      "id": "1781088112688-o7a6kvq3a",
+      "memberId": "1779724965533-h1lpghgka",
+      "memberName": "น้างูดิน",
+      "buyerName": "",
+      "date": "2026-06-11",
+      "items": [
+        {
+          "productId": "product-1",
+          "productName": "แผ่น",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
           "returned": 0,
           "sold": 0,
           "priceUsed": 6
@@ -37307,9 +38232,9 @@
         {
           "productId": "product-16",
           "productName": "ส้ม",
-          "oldStock": 23,
+          "oldStock": 0,
           "newStock": 0,
-          "totalStock": 23,
+          "totalStock": 0,
           "returned": 0,
           "sold": 0,
           "priceUsed": 5
@@ -37377,9 +38302,9 @@
         {
           "productId": "product-23",
           "productName": "แซนวิช",
-          "oldStock": 4,
+          "oldStock": 0,
           "newStock": 0,
-          "totalStock": 4,
+          "totalStock": 0,
           "returned": 0,
           "sold": 0,
           "priceUsed": 7.5
@@ -37387,9 +38312,9 @@
         {
           "productId": "product-24",
           "productName": "ถ้วย",
-          "oldStock": 3,
+          "oldStock": 0,
           "newStock": 0,
-          "totalStock": 3,
+          "totalStock": 0,
           "returned": 0,
           "sold": 0,
           "priceUsed": 6
@@ -37397,9 +38322,9 @@
         {
           "productId": "product-25",
           "productName": "โคน",
-          "oldStock": 16,
+          "oldStock": 0,
           "newStock": 0,
-          "totalStock": 16,
+          "totalStock": 0,
           "returned": 0,
           "sold": 0,
           "priceUsed": 10
@@ -37440,17 +38365,1072 @@
       "totalSales": 0,
       "amountPaid": 0,
       "amountOwed": 0,
+      "previousOwed": 280,
+      "notes": "",
+      "status": "draft",
+      "dayClosed": false,
+      "returnInputs": {},
+      "createdAt": "2026-06-10T10:41:52.688Z",
+      "updatedAt": "2026-06-10T10:41:52.688Z"
+    },
+    {
+      "id": "1781088117876-laie4beq2",
+      "memberId": "1779724965533-h1lpghgka",
+      "memberName": "น้างูดิน",
+      "buyerName": "",
+      "date": "2026-06-10",
+      "items": [
+        {
+          "productId": "product-1",
+          "productName": "แผ่น",
+          "oldStock": 0,
+          "newStock": 40,
+          "totalStock": 40,
+          "returned": 0,
+          "sold": 40,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-2",
+          "productName": "ถั่วดำ",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-3",
+          "productName": "ถั่วแดง",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-4",
+          "productName": "ข้าวเหนียวดำ",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-5",
+          "productName": "ลอดช่อง",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-6",
+          "productName": "ข้าวโพด",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-7",
+          "productName": "เผือก",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-8",
+          "productName": "ชาเย็น",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-9",
+          "productName": "โอเลี้ยง",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-10",
+          "productName": "ป๊อป",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-11",
+          "productName": "คาลิโป้",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-12",
+          "productName": "ทุเรียน",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-13",
+          "productName": "กะทิ",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-14",
+          "productName": "ช็อคโกแลต",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-15",
+          "productName": "สตอเบอรี่",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-16",
+          "productName": "ส้ม",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-17",
+          "productName": "แดง",
+          "oldStock": 0,
+          "newStock": 10,
+          "totalStock": 10,
+          "returned": 0,
+          "sold": 10,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-18",
+          "productName": "โคล่า",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-19",
+          "productName": "จรวด",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-20",
+          "productName": "สามสี",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-21",
+          "productName": "ตุ๊กตา",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-22",
+          "productName": "กาแฟ",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 7.5
+        },
+        {
+          "productId": "product-23",
+          "productName": "แซนวิช",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 7.5
+        },
+        {
+          "productId": "product-24",
+          "productName": "ถ้วย",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-25",
+          "productName": "โคน",
+          "oldStock": 0,
+          "newStock": 12,
+          "totalStock": 12,
+          "returned": 0,
+          "sold": 12,
+          "priceUsed": 10
+        },
+        {
+          "productId": "product-26",
+          "productName": "น้ำแข็งแห้ง",
+          "oldStock": 0,
+          "newStock": 6,
+          "totalStock": 6,
+          "returned": 0,
+          "sold": 6,
+          "priceUsed": 25
+        },
+        {
+          "productId": "product-27",
+          "productName": "รถ",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-28",
+          "productName": "บ้าน",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 20
+        }
+      ],
+      "ice": "",
+      "icePrice": 150,
+      "totalSales": 580,
+      "amountPaid": 860,
+      "amountOwed": 0,
+      "previousOwed": 280,
+      "notes": "",
+      "status": "completed",
+      "dayClosed": false,
+      "returnInputs": {},
+      "createdAt": "2026-06-10T10:41:57.876Z",
+      "updatedAt": "2026-06-10T10:42:23.038Z"
+    },
+    {
+      "id": "1781089053402-0qfs7fc68",
+      "memberId": "1781089038096-ofgfne22b",
+      "memberName": "Test3",
+      "buyerName": "",
+      "date": "2026-06-11",
+      "items": [
+        {
+          "productId": "product-1",
+          "productName": "แผ่น",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-2",
+          "productName": "ถั่วดำ",
+          "oldStock": 0,
+          "newStock": 1,
+          "totalStock": 1,
+          "returned": 0,
+          "sold": 1,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-3",
+          "productName": "ถั่วแดง",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-4",
+          "productName": "ข้าวเหนียวดำ",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-5",
+          "productName": "ลอดช่อง",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-6",
+          "productName": "ข้าวโพด",
+          "oldStock": 0,
+          "newStock": 1,
+          "totalStock": 1,
+          "returned": 0,
+          "sold": 1,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-7",
+          "productName": "เผือก",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-8",
+          "productName": "ชาเย็น",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-9",
+          "productName": "โอเลี้ยง",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-10",
+          "productName": "ป๊อป",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-11",
+          "productName": "คาลิโป้",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-12",
+          "productName": "ทุเรียน",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-13",
+          "productName": "กะทิ",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-14",
+          "productName": "ช็อคโกแลต",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-15",
+          "productName": "สตอเบอรี่",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-16",
+          "productName": "ส้ม",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-17",
+          "productName": "แดง",
+          "oldStock": 0,
+          "newStock": 1,
+          "totalStock": 1,
+          "returned": 0,
+          "sold": 1,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-18",
+          "productName": "โคล่า",
+          "oldStock": 0,
+          "newStock": 1,
+          "totalStock": 1,
+          "returned": 0,
+          "sold": 1,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-19",
+          "productName": "จรวด",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-20",
+          "productName": "สามสี",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-21",
+          "productName": "ตุ๊กตา",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-22",
+          "productName": "กาแฟ",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 7.5
+        },
+        {
+          "productId": "product-23",
+          "productName": "แซนวิช",
+          "oldStock": 0,
+          "newStock": 12,
+          "totalStock": 12,
+          "returned": 0,
+          "sold": 12,
+          "priceUsed": 7.5
+        },
+        {
+          "productId": "product-24",
+          "productName": "ถ้วย",
+          "oldStock": 0,
+          "newStock": 3,
+          "totalStock": 3,
+          "returned": 0,
+          "sold": 3,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-25",
+          "productName": "โคน",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 10
+        },
+        {
+          "productId": "product-26",
+          "productName": "น้ำแข็งแห้ง",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 25
+        },
+        {
+          "productId": "product-27",
+          "productName": "รถ",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-28",
+          "productName": "บ้าน",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 20
+        }
+      ],
+      "ice": "",
+      "icePrice": 0,
+      "totalSales": 2012,
+      "amountPaid": 0,
+      "amountOwed": 2012,
       "previousOwed": 0,
       "notes": "",
       "status": "draft",
       "dayClosed": false,
       "returnInputs": {},
-      "createdAt": "2026-06-10T06:35:04.914Z",
-      "updatedAt": "2026-06-10T06:35:04.914Z"
+      "createdAt": "2026-06-10T10:57:33.402Z",
+      "updatedAt": "2026-06-10T11:04:48.506Z"
+    },
+    {
+      "id": "1781089804470-f4q7o10mm",
+      "memberId": "1779724946085-ksi2nn11u",
+      "memberName": "น้าดำ",
+      "buyerName": "",
+      "date": "2026-06-10",
+      "items": [
+        {
+          "productId": "product-1",
+          "productName": "แผ่น",
+          "oldStock": 230,
+          "newStock": 10,
+          "totalStock": 240,
+          "returned": 0,
+          "sold": 240,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-2",
+          "productName": "ถั่วดำ",
+          "oldStock": 0,
+          "newStock": 20,
+          "totalStock": 20,
+          "returned": 0,
+          "sold": 20,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-3",
+          "productName": "ถั่วแดง",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-4",
+          "productName": "ข้าวเหนียวดำ",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-5",
+          "productName": "ลอดช่อง",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-6",
+          "productName": "ข้าวโพด",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-7",
+          "productName": "เผือก",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-8",
+          "productName": "ชาเย็น",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-9",
+          "productName": "โอเลี้ยง",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-10",
+          "productName": "ป๊อป",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-11",
+          "productName": "คาลิโป้",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-12",
+          "productName": "ทุเรียน",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-13",
+          "productName": "กะทิ",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-14",
+          "productName": "ช็อคโกแลต",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-15",
+          "productName": "สตอเบอรี่",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-16",
+          "productName": "ส้ม",
+          "oldStock": 43,
+          "newStock": 0,
+          "totalStock": 43,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-17",
+          "productName": "แดง",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-18",
+          "productName": "โคล่า",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-19",
+          "productName": "จรวด",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-20",
+          "productName": "สามสี",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-21",
+          "productName": "ตุ๊กตา",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-22",
+          "productName": "กาแฟ",
+          "oldStock": 0,
+          "newStock": 10,
+          "totalStock": 10,
+          "returned": 0,
+          "sold": 10,
+          "priceUsed": 7.5
+        },
+        {
+          "productId": "product-23",
+          "productName": "แซนวิช ",
+          "oldStock": 14,
+          "newStock": 10,
+          "totalStock": 24,
+          "returned": 0,
+          "sold": 24,
+          "priceUsed": 7.5
+        },
+        {
+          "productId": "product-24",
+          "productName": "ถ้วย",
+          "oldStock": 16,
+          "newStock": 0,
+          "totalStock": 16,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 6
+        },
+        {
+          "productId": "product-25",
+          "productName": "โคน",
+          "oldStock": 29,
+          "newStock": 10,
+          "totalStock": 39,
+          "returned": 0,
+          "sold": 39,
+          "priceUsed": 10
+        },
+        {
+          "productId": "product-26",
+          "productName": "น้ำแข็งแห้ง",
+          "oldStock": 0,
+          "newStock": 6,
+          "totalStock": 6,
+          "returned": 0,
+          "sold": 6,
+          "priceUsed": 25
+        },
+        {
+          "productId": "product-27",
+          "productName": "รถ",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 5
+        },
+        {
+          "productId": "product-28",
+          "productName": "บ้าน",
+          "oldStock": 0,
+          "newStock": 0,
+          "totalStock": 0,
+          "returned": 0,
+          "sold": 0,
+          "priceUsed": 20
+        }
+      ],
+      "ice": "",
+      "icePrice": 150,
+      "totalSales": 1642,
+      "amountPaid": 1992,
+      "amountOwed": 0,
+      "previousOwed": 350,
+      "notes": "",
+      "status": "completed",
+      "dayClosed": false,
+      "returnInputs": {
+        "XL": 100,
+        "S": 20,
+        "Coffee": 8,
+        "Sandwich": 10,
+        "Cup": 4,
+        "Cone": 19
+      },
+      "createdAt": "2026-06-10T11:10:04.470Z",
+      "updatedAt": "2026-06-10T11:15:10.984Z"
     }
   ],
   "dailySummaries": [],
-  "historyLogs": [],
+  "historyLogs": [
+    {
+      "id": "log-1781097815907",
+      "timestamp": "2026-06-10T13:23:35.907Z",
+      "action": "บันทึกรายจ่าย",
+      "details": "ลงยอด 33 บาท ในหมวดหมู่ ค่าน้ำ"
+    },
+    {
+      "id": "log-1781097837223",
+      "timestamp": "2026-06-10T13:23:57.223Z",
+      "action": "บันทึกรายจ่าย",
+      "details": "ลงยอด 109 บาท ในหมวดหมู่ ค่าน้ำ"
+    },
+    {
+      "id": "log-1781097868834",
+      "timestamp": "2026-06-10T13:24:28.834Z",
+      "action": "บันทึกรายจ่าย",
+      "details": "ลงยอด 210 บาท ในหมวดหมู่ ค่าน้ำ"
+    },
+    {
+      "id": "log-1781097917361",
+      "timestamp": "2026-06-10T13:25:17.361Z",
+      "action": "บันทึกรายจ่าย",
+      "details": "ลงยอด 3700 บาท ในหมวดหมู่ ค่าไฟ"
+    },
+    {
+      "id": "log-1781097959168",
+      "timestamp": "2026-06-10T13:25:59.168Z",
+      "action": "บันทึกรายจ่าย",
+      "details": "ลงยอด 300 บาท ในหมวดหมู่ ซื้อของเข้าร้าน"
+    },
+    {
+      "id": "log-1781097969819",
+      "timestamp": "2026-06-10T13:26:09.819Z",
+      "action": "บันทึกรายจ่าย",
+      "details": "ลงยอด 300 บาท ในหมวดหมู่ Jan"
+    },
+    {
+      "id": "log-1781097981061",
+      "timestamp": "2026-06-10T13:26:21.061Z",
+      "action": "บันทึกรายจ่าย",
+      "details": "ลงยอด 420 บาท ในหมวดหมู่ อื่น ๆ"
+    },
+    {
+      "id": "log-1781097992152",
+      "timestamp": "2026-06-10T13:26:32.152Z",
+      "action": "บันทึกรายจ่าย",
+      "details": "ลงยอด 118 บาท ในหมวดหมู่ Mark"
+    },
+    {
+      "id": "log-1781098011690",
+      "timestamp": "2026-06-10T13:26:51.690Z",
+      "action": "บันทึกรายจ่าย",
+      "details": "ลงยอด 400 บาท ในหมวดหมู่ ค่าข้าว"
+    },
+    {
+      "id": "log-1781098029827",
+      "timestamp": "2026-06-10T13:27:09.827Z",
+      "action": "บันทึกรายจ่าย",
+      "details": "ลงยอด 105 บาท ในหมวดหมู่ ค่ากิน"
+    },
+    {
+      "id": "log-1781098046033",
+      "timestamp": "2026-06-10T13:27:26.034Z",
+      "action": "บันทึกรายจ่าย",
+      "details": "ลงยอด 100 บาท ในหมวดหมู่ Jan"
+    },
+    {
+      "id": "log-1781098051440",
+      "timestamp": "2026-06-10T13:27:31.440Z",
+      "action": "บันทึกรายจ่าย",
+      "details": "ลงยอด 500 บาท ในหมวดหมู่ Mark"
+    },
+    {
+      "id": "log-1781098055722",
+      "timestamp": "2026-06-10T13:27:35.722Z",
+      "action": "บันทึกรายจ่าย",
+      "details": "ลงยอด 350 บาท ในหมวดหมู่ Yen"
+    },
+    {
+      "id": "log-1781098070965",
+      "timestamp": "2026-06-10T13:27:50.965Z",
+      "action": "บันทึกรายจ่าย",
+      "details": "ลงยอด 270 บาท ในหมวดหมู่ Mark"
+    },
+    {
+      "id": "log-1781098088663",
+      "timestamp": "2026-06-10T13:28:08.663Z",
+      "action": "บันทึกรายจ่าย",
+      "details": "ลงยอด 140 บาท ในหมวดหมู่ อาหาร/สวัสดิการ"
+    },
+    {
+      "id": "log-1781098096641",
+      "timestamp": "2026-06-10T13:28:16.641Z",
+      "action": "บันทึกรายจ่าย",
+      "details": "ลงยอด 100 บาท ในหมวดหมู่ Mark"
+    },
+    {
+      "id": "log-1781098101902",
+      "timestamp": "2026-06-10T13:28:21.902Z",
+      "action": "บันทึกรายจ่าย",
+      "details": "ลงยอด 100 บาท ในหมวดหมู่ อาหาร/สวัสดิการ"
+    },
+    {
+      "id": "log-1781098110477",
+      "timestamp": "2026-06-10T13:28:30.477Z",
+      "action": "บันทึกรายจ่าย",
+      "details": "ลงยอด 240 บาท ในหมวดหมู่ Father"
+    },
+    {
+      "id": "log-1781098121480",
+      "timestamp": "2026-06-10T13:28:41.480Z",
+      "action": "บันทึกรายจ่าย",
+      "details": "ลงยอด 350 บาท ในหมวดหมู่ ค่าข้าว"
+    },
+    {
+      "id": "log-1781098127498",
+      "timestamp": "2026-06-10T13:28:47.498Z",
+      "action": "บันทึกรายจ่าย",
+      "details": "ลงยอด 100 บาท ในหมวดหมู่ Mark"
+    },
+    {
+      "id": "log-1781098144998",
+      "timestamp": "2026-06-10T13:29:04.998Z",
+      "action": "บันทึกรายจ่าย",
+      "details": "ลงยอด 586 บาท ในหมวดหมู่ ค่าไฟ"
+    },
+    {
+      "id": "log-1781098160403",
+      "timestamp": "2026-06-10T13:29:20.403Z",
+      "action": "บันทึกรายจ่าย",
+      "details": "ลงยอด 169 บาท ในหมวดหมู่ Mark"
+    },
+    {
+      "id": "log-1781098200124",
+      "timestamp": "2026-06-10T13:30:00.124Z",
+      "action": "บันทึกรายจ่าย",
+      "details": "ลงยอด 56 บาท ในหมวดหมู่ อะไหล่รถ"
+    },
+    {
+      "id": "log-1781098214998",
+      "timestamp": "2026-06-10T13:30:14.998Z",
+      "action": "บันทึกรายจ่าย",
+      "details": "ลงยอด 300 บาท ในหมวดหมู่ ค่าข้าว"
+    }
+  ],
   "settings": {
     "retentionMonths": 3,
     "reminderExport": true,
@@ -37573,5 +39553,176 @@
       "createdAt": "2026-06-09T11:46:31.567Z"
     }
   ],
-  "expenses": []
+  "expenses": [
+    {
+      "date": "2026-06-10",
+      "categoryId": "cat-8",
+      "amount": 33,
+      "id": "exp-1781097815907",
+      "createdAt": "2026-06-10T13:23:35.907Z"
+    },
+    {
+      "date": "2026-06-10",
+      "categoryId": "cat-8",
+      "amount": 109,
+      "id": "exp-1781097837223",
+      "createdAt": "2026-06-10T13:23:57.223Z"
+    },
+    {
+      "date": "2026-06-10",
+      "categoryId": "cat-8",
+      "amount": 210,
+      "id": "exp-1781097868834",
+      "createdAt": "2026-06-10T13:24:28.834Z"
+    },
+    {
+      "date": "2026-06-09",
+      "categoryId": "cat-7",
+      "amount": 3700,
+      "id": "exp-1781097917361",
+      "createdAt": "2026-06-10T13:25:17.361Z"
+    },
+    {
+      "date": "2026-06-01",
+      "categoryId": "cat-4",
+      "amount": 300,
+      "id": "exp-1781097959168",
+      "createdAt": "2026-06-10T13:25:59.168Z"
+    },
+    {
+      "date": "2026-06-02",
+      "categoryId": "cat-13",
+      "amount": 300,
+      "id": "exp-1781097969819",
+      "createdAt": "2026-06-10T13:26:09.819Z"
+    },
+    {
+      "date": "2026-06-02",
+      "categoryId": "cat-5",
+      "amount": 420,
+      "id": "exp-1781097981061",
+      "createdAt": "2026-06-10T13:26:21.061Z"
+    },
+    {
+      "date": "2026-06-03",
+      "categoryId": "cat-12",
+      "amount": 118,
+      "id": "exp-1781097992152",
+      "createdAt": "2026-06-10T13:26:32.152Z"
+    },
+    {
+      "date": "2026-06-03",
+      "categoryId": "cat-10",
+      "amount": 400,
+      "note": "105",
+      "id": "exp-1781098011690",
+      "createdAt": "2026-06-10T13:26:51.690Z"
+    },
+    {
+      "date": "2026-06-03",
+      "categoryId": "cat-9",
+      "amount": 105,
+      "id": "exp-1781098029827",
+      "createdAt": "2026-06-10T13:27:09.827Z"
+    },
+    {
+      "date": "2026-06-04",
+      "categoryId": "cat-13",
+      "amount": 100,
+      "id": "exp-1781098046033",
+      "createdAt": "2026-06-10T13:27:26.033Z"
+    },
+    {
+      "date": "2026-06-04",
+      "categoryId": "cat-12",
+      "amount": 500,
+      "id": "exp-1781098051440",
+      "createdAt": "2026-06-10T13:27:31.440Z"
+    },
+    {
+      "date": "2026-06-04",
+      "categoryId": "cat-14",
+      "amount": 350,
+      "id": "exp-1781098055721",
+      "createdAt": "2026-06-10T13:27:35.722Z"
+    },
+    {
+      "date": "2026-06-05",
+      "categoryId": "cat-12",
+      "amount": 270,
+      "note": "Shoppee",
+      "id": "exp-1781098070965",
+      "createdAt": "2026-06-10T13:27:50.965Z"
+    },
+    {
+      "date": "2026-06-05",
+      "categoryId": "cat-3",
+      "amount": 140,
+      "id": "exp-1781098088663",
+      "createdAt": "2026-06-10T13:28:08.663Z"
+    },
+    {
+      "date": "2026-06-05",
+      "categoryId": "cat-12",
+      "amount": 100,
+      "id": "exp-1781098096641",
+      "createdAt": "2026-06-10T13:28:16.641Z"
+    },
+    {
+      "date": "2026-06-05",
+      "categoryId": "cat-3",
+      "amount": 100,
+      "id": "exp-1781098101902",
+      "createdAt": "2026-06-10T13:28:21.902Z"
+    },
+    {
+      "date": "2026-06-05",
+      "categoryId": "cat-15",
+      "amount": 240,
+      "id": "exp-1781098110477",
+      "createdAt": "2026-06-10T13:28:30.477Z"
+    },
+    {
+      "date": "2026-06-06",
+      "categoryId": "cat-10",
+      "amount": 350,
+      "id": "exp-1781098121480",
+      "createdAt": "2026-06-10T13:28:41.480Z"
+    },
+    {
+      "date": "2026-06-06",
+      "categoryId": "cat-12",
+      "amount": 100,
+      "id": "exp-1781098127498",
+      "createdAt": "2026-06-10T13:28:47.498Z"
+    },
+    {
+      "date": "2026-06-07",
+      "categoryId": "cat-7",
+      "amount": 586,
+      "id": "exp-1781098144998",
+      "createdAt": "2026-06-10T13:29:04.998Z"
+    },
+    {
+      "date": "2026-06-07",
+      "categoryId": "cat-12",
+      "amount": 169,
+      "id": "exp-1781098160403",
+      "createdAt": "2026-06-10T13:29:20.403Z"
+    },
+    {
+      "date": "2026-06-10",
+      "categoryId": "cat-16",
+      "amount": 56,
+      "id": "exp-1781098200124",
+      "createdAt": "2026-06-10T13:30:00.124Z"
+    },
+    {
+      "date": "2026-06-08",
+      "categoryId": "cat-10",
+      "amount": 300,
+      "id": "exp-1781098214998",
+      "createdAt": "2026-06-10T13:30:14.998Z"
+    }
+  ]
 }

@@ -16,6 +16,7 @@ import {
   createDefaultMember,
   createDefaultProduct,
   createNewBill,
+  getProductPriceByMemberClass,
   calculateBillTotals,
   PRODUCT_TYPE_LABELS,
   ExpenseCategory,
@@ -280,7 +281,7 @@ export const useStore = create<Store>()((set, get) => ({
         return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
       })[0];
 
-      const bill = createNewBill(memberId, member.name, state.products, prevBill, billDate);
+      const bill = createNewBill(memberId, member.name, state.products, prevBill, billDate, member);
       
       // บันทึกสะสมยอดค้างจากหนี้สุทธิเก่าลงฟิลด์ previousOwed ของบิลปัจจุบันอย่างชัดเจน
       bill.previousOwed = prevBill ? prevBill.amountOwed : 0;
